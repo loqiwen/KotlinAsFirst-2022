@@ -1,8 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 
-package lesson3.task1
-
-import kotlin.math.sqrt
+import kotlin.math.*
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -57,12 +55,11 @@ fun isPerfect(n: Int): Boolean {
  *
  * Найти число вхождений цифры m в число n
  */
-fun digitCountInNumber(n: Int, m: Int): Int =
-    when {
-        n == m -> 1
-        n < 10 -> 0
-        else -> digitCountInNumber(n / 10, m) + digitCountInNumber(n % 10, m)
-    }
+fun digitCountInNumber(n: Int, m: Int): Int = when {
+    n == m -> 1
+    n < 10 -> 0
+    else -> digitCountInNumber(n / 10, m) + digitCountInNumber(n % 10, m)
+}
 
 /**
  * Простая (2 балла)
@@ -72,7 +69,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var vnum = n
+    if (n == 0) return 0
+    while (n > 0) {
+        count += 1
+        vnum /= 10
+    }
+    return count
+}
 
 /**
  * Простая (2 балла)
@@ -80,21 +86,48 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var mpl = 1
+    var ml = 1
+    var fp = 1
+    if ((n == 1) || (n == 2)) return 1
+    else {
+        for (i in 3..n) {
+            fp += ml
+            ml = mpl
+            mpl = fp
+        }
+        return fp
+    }
+}
+
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    for (x in 2..sqrt(n.toDouble()).toInt()) {
+        if (n % x == 0) return x
+    }
+    return n
+}
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var bigDivisor = 1
+    for (i in 2..n / 2) {
+        if (n % i == 0) {
+            bigDivisor = i
+        }
+    }
+    return bigDivisor
+}
 
 /**
  * Простая (2 балла)
@@ -112,7 +145,21 @@ fun maxDivisor(n: Int): Int = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var countSteps = 0
+    var vx = x
+    while (vx > 1) {
+        if (vx % 2 == 0) {
+            countSteps += 1
+            vx /= 2
+        } else {
+            countSteps += 1
+            vx = 3 * vx + 1
+        }
+    }
+    return countSteps
+
+}
 
 /**
  * Средняя (3 балла)
@@ -120,7 +167,16 @@ fun collatzSteps(x: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var k = 0
+    for (i in max(m, n)..Int.MAX_VALUE) {
+        if (i % m == 0 && i % n == 0) {
+            k = i
+            break
+        }
+    }
+    return k
+}
 
 /**
  * Средняя (3 балла)
@@ -129,7 +185,17 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    if (max(m, n) % min(m, n) == 0) return false
+    else {
+        for (i in 2..sqrt(min(m, n).toDouble()).toInt()) {
+            if (m % i == 0 && n % i == 0) {
+                return false
+            } else continue
+        }
+    }
+    return true
+}
 
 /**
  * Средняя (3 балла)
@@ -138,7 +204,15 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var m = 0
+    var vn = n
+    while (vn > 0) {
+        m = m * 10 + vn % 10
+        vn /= 10
+    }
+    return m
+}
 
 /**
  * Средняя (3 балла)
@@ -149,7 +223,8 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = (revert(n) == n)
+
 
 /**
  * Средняя (3 балла)
@@ -170,9 +245,27 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var p = x
+    while (p > 2 * PI) {
+        p = p - 2 * PI
+    }
+    while (p < 0) {
+        p = p + 2 * PI
+    }
+    val vx = p
+    var sinOutput = p
+    var n = 2
+    while (abs(p) >= eps) {
+        p = -(p * vx.pow(2) / (n * (n + 1)))
+        sinOutput += p
+        n += 2;
+    }
+    return sinOutput
 
-/**
+}
+
+/**+
  * Средняя (4 балла)
  *
  * Для заданного x рассчитать с заданной точностью eps
@@ -181,7 +274,25 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var p = x
+    while (p > 2 * PI) {
+        p = p - 2 * PI
+    }
+    while (p < 0) {
+        p = p + 2 * PI
+    }
+    val vx = p
+    var cosOutput = 1.0 - vx.pow(2) / 2
+    p = -vx.pow(2) / 2
+    var n = 3
+    while (abs(p) > eps) {
+        p = -(p * vx.pow(2) / (n * (n + 1)))
+        cosOutput = cosOutput + p
+        n += 2;
+    }
+    return cosOutput
+}
 
 /**
  * Сложная (4 балла)
@@ -192,7 +303,26 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var sqp = 0
+    var k = 0
+    val tn = 10.0
+    for (i in 1..n) {
+        for (j in 0..Int.MAX_VALUE) {
+            if (i*i < tn.pow(j)) {
+                k = j
+                break
+            }
+        }
+
+        sqp = sqp * k + i*i
+    }
+
+    if (sqp / 10 > 1) return (sqp/(k/10))%10
+    else if (sqp / 10 == 1) return sqp % 10
+    else return sqp
+}
+
 
 /**
  * Сложная (5 баллов)
