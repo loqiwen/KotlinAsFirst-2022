@@ -3,6 +3,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 
@@ -76,7 +77,7 @@ fun circleInside(
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val mn = min(a, b)
-    val mn1 = min(mn, c)
+    val mn1 = min(max(a,b), c)
     if ((mn <= r && mn1 <= s) || (mn <= s && mn1 <= r)) return true
     else return false
 }
