@@ -1,5 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
-
+package lesson3.task1
 import kotlin.math.*
 
 // Урок 3: циклы
@@ -72,8 +72,8 @@ fun digitCountInNumber(n: Int, m: Int): Int = when {
 fun digitNumber(n: Int): Int {
     var count = 0
     var vnum = n
-    if (n == 0) return 0
-    while (n > 0) {
+    if (n == 0) return 1
+    while (vnum > 0) {
         count += 1
         vnum /= 10
     }
@@ -303,25 +303,7 @@ fun cos(x: Double, eps: Double): Double {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int {
-    var sqp = 0
-    var k = 0
-    val tn = 10.0
-    for (i in 1..n) {
-        for (j in 0..Int.MAX_VALUE) {
-            if (i*i < tn.pow(j)) {
-                k = j
-                break
-            }
-        }
-
-        sqp = sqp * k + i*i
-    }
-
-    if (sqp / 10 > 1) return (sqp/(k/10))%10
-    else if (sqp / 10 == 1) return sqp % 10
-    else return sqp
-}
+fun squareSequenceDigit(n: Int): Int = TODO()
 
 
 /**
