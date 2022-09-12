@@ -93,15 +93,14 @@ fun timeForHalfWay(
     val s2 = v2 * t2
     val s3 = v3 * t3
     val halfWay = (s1 + s2 + s3) / 2
-    val timeHalf: Double
     if (halfWay <= s1) {
-        timeHalf = (halfWay / v1)
+        return (halfWay / v1)
     } else if (halfWay <= s1 + s2) {
-        timeHalf = t1 + ((halfWay - s1) / v2)
+        return t1 + ((halfWay - s1) / v2)
     } else {
-        timeHalf = t1 + t2 + ((halfWay - s1 - s2) / v3)
+        return t1 + t2 + ((halfWay - s1 - s2) / v3)
     }
-    return timeHalf
+
 }
 
 /**
@@ -149,7 +148,10 @@ fun rookOrBishopThreatens(
         countWarnings += 1
     }
     for (x in 1..8) {
-        if ((bishopX + x == kingX && bishopY + x == kingY) || (bishopX - x == kingX && bishopY - x == kingY) || (bishopX + x == kingX && bishopY - x == kingY) || (bishopX - x == kingX && bishopY + x == kingY)) {
+        if ((bishopX + x == kingX && bishopY + x == kingY)
+            || (bishopX - x == kingX && bishopY - x == kingY)
+            ||(bishopX + x == kingX && bishopY - x == kingY)
+            || (bishopX - x == kingX && bishopY + x == kingY)) {
             forBishop += 1
         }
     }
