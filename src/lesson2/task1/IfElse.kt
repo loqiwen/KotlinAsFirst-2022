@@ -177,12 +177,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val other = smq - mx.pow(2)
     val sm = a + b + c
 
-    if (mx > sm - mx) return -1
-    else if (mx.pow(2) < other) return 0
-    else if (mx.pow(2) == other) return 1
-    else if (mx.pow(2) > other) return 2
-    else return -1
-
+    return when {
+        (mx > sm - mx) -> -1
+        (mx.pow(2) < other) -> 0
+        (mx.pow(2) == other) -> 1
+        (mx.pow(2) > other) -> 2
+        else -> -1
+    }
 
 }
 

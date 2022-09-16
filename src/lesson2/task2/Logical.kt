@@ -29,7 +29,8 @@ fun isNumberHappy(number: Int): Boolean = (number / 1000 + (number / 100) % 10) 
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = ((x1 == x2 || y1 == y2) || (x1 - x2) == (y1 - y2) || (x1 - x2) == (y2 - y1))
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = ((x1 == x2 || y1 == y2) || (x1 - x2)
+        == (y1 - y2) || (x1 - x2) == (y2 - y1))
 
 
 /**
@@ -75,6 +76,5 @@ fun circleInside(
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val mn = min(a, b)
     val mn1 = min(max(a,b), c)
-    if ((mn <= r && mn1 <= s) || (mn <= s && mn1 <= r)) return true
-    else return false
+    return (mn <= r && mn1 <= s) || (mn <= s && mn1 <= r)
 }
