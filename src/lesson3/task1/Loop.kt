@@ -1,5 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
+
+import lesson1.task1.sqr
 import kotlin.math.*
 
 // Урок 3: циклы
@@ -259,7 +262,7 @@ fun sin(x: Double, eps: Double): Double {
     while (abs(p) >= eps) {
         p = -(p * vx.pow(2) / (n * (n + 1)))
         sinOutput += p
-        n += 2;
+        n += 2
     }
     return sinOutput
 
@@ -289,7 +292,7 @@ fun cos(x: Double, eps: Double): Double {
     while (abs(p) > eps) {
         p = -(p * vx.pow(2) / (n * (n + 1)))
         cosOutput = cosOutput + p
-        n += 2;
+        n += 2
     }
     return cosOutput
 }
@@ -303,8 +306,23 @@ fun cos(x: Double, eps: Double): Double {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var cnum = 0
+    var fret = 0
+    for (i in 1..n) {
+        cnum += digitNumber(sqr(i))
+        if (cnum > n) {
+            fret = sqr(i) / 10.0.pow(cnum - n).toInt() % 10
+            break
 
+        } else if (cnum == n) {
+            fret = sqr(i) % 10
+            break
+        }
+    }
+
+    return fret
+}
 
 /**
  * Сложная (5 баллов)
@@ -315,4 +333,22 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var cnum = 0
+    var fret = 0
+    var check = 0
+    for (i in 1..n) {
+        cnum += digitNumber(fib(i))
+        check = fib(i)
+        if (cnum > n) {
+            fret = check / 10.0.pow(cnum - n).toInt() % 10
+            break
+
+        } else if (cnum == n) {
+            fret = check % 10
+            break
+        }
+    }
+
+    return fret
+}

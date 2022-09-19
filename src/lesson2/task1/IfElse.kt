@@ -3,6 +3,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import java.lang.Math.abs
 import kotlin.math.max
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -93,12 +94,12 @@ fun timeForHalfWay(
     val s2 = v2 * t2
     val s3 = v3 * t3
     val halfWay = (s1 + s2 + s3) / 2
-    if (halfWay <= s1) {
-        return (halfWay / v1)
-    } else if (halfWay <= s1 + s2) {
-        return t1 + ((halfWay - s1) / v2)
-    } else {
-        return t1 + t2 + ((halfWay - s1 - s2) / v3)
+
+    return when {
+        halfWay <= s1 -> (halfWay / v1)
+        halfWay <= s1 + s2 -> t1 + ((halfWay - s1) / v2)
+        else -> t1 + t2 + ((halfWay - s1 - s2) / v3)
+
     }
 
 }
@@ -147,14 +148,11 @@ fun rookOrBishopThreatens(
     if (rookX == kingX || rookY == kingY) {
         countWarnings += 1
     }
-    for (x in 1..8) {
-        if ((bishopX + x == kingX && bishopY + x == kingY)
-            || (bishopX - x == kingX && bishopY - x == kingY)
-            ||(bishopX + x == kingX && bishopY - x == kingY)
-            || (bishopX - x == kingX && bishopY + x == kingY)) {
-            forBishop += 1
-        }
+
+    if (abs(bishopX - kingX) == abs(bishopY - kingY)) {
+        forBishop += 1
     }
+
     if (forBishop > 0) {
         countWarnings += 2
     }
@@ -202,9 +200,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * c d a b
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (a <= c && b >= c && b <= d) return b - c // a c b d
-    else if (a <= c && b >= d) return d - c // a c d b
-    else if (a>= c && b >= d && a <= d) return d - a // c a d b
-    else if (a >= c && d >= b) return b - a
-    else return -1 // a b c d + c d a b (a < c && b < c || a > c && b > c)
+    return when {
+        a <= c && b >= c && b <= d -> b - c // a c b d
+        a <= c && b >= d -> d - c // a c d b
+        a >= c && b >= d && a <= d -> d - a // c a d b
+        a >= c && d >= b -> b - a
+        else -> -1 // a b c d + c d a b (a < c && b < c || a > c && b > c)
+    }
 }
