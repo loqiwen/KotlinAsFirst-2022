@@ -261,6 +261,7 @@ fun convert(n: Int, base: Int): List<Int> {
         list.add(0, vn % base)
         vn /= base
     }
+    if (list.size == 0) return listOf( 0 )
     return list
 }
 
@@ -278,6 +279,7 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     var vn = n
     var str = ""
+    if (n == 0) return "0"
     while (vn > 0) {
         if (vn % base <= 9) {
             str = (vn % base).toString() + str

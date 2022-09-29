@@ -150,13 +150,8 @@ fun rookOrBishopThreatens(
     }
 
     if (abs(bishopX - kingX) == abs(bishopY - kingY)) {
-        forBishop += 1
-    }
-
-    if (forBishop > 0) {
         countWarnings += 2
     }
-
     return countWarnings
 }
 
@@ -176,10 +171,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val sm = a + b + c
 
     return when {
-        (mx > sm - mx) -> -1
-        (mx.pow(2) < other) -> 0
-        (mx.pow(2) == other) -> 1
-        (mx.pow(2) > other) -> 2
+        mx > sm - mx -> -1
+        mx.pow(2) < other -> 0
+        mx.pow(2) == other -> 1
+        mx.pow(2) > other -> 2
         else -> -1
     }
 
