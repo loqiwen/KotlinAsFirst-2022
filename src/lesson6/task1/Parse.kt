@@ -207,11 +207,16 @@ fun bestHighJump(jumps: String): Int {
     val trys = jumps.split(" ")
     val notBanned = "0123456789+-% "
     val res = mutableListOf<Int>()
-    for (high in 0 until trys.size step 2) {
-        if (trys[high].all { it !in notBanned } || trys[high].all { it !in notBanned }) return -1
-        if ("+" in trys[high + 1]) res.add(trys[high].toInt())
+    try {
+        for (high in 0 until trys.size step 2) {
+            if (trys[high].all { it !in notBanned } || trys[high].all { it !in notBanned }) return -1
+            if ("+" in trys[high + 1]) res.add(trys[high].toInt())
+        }
+        return res.max()
     }
-    return res.max()
+    catch (e:NoSuchElementException) {
+        return -1
+    }
 }
 
 /**
