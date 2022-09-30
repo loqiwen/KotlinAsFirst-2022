@@ -144,7 +144,6 @@ fun rookOrBishopThreatens(
     bishopX: Int, bishopY: Int
 ): Int {
     var countWarnings = 0
-    var forBishop = 0
     if (rookX == kingX || rookY == kingY) {
         countWarnings += 1
     }
@@ -194,12 +193,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * c a b d
  * c d a b
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when {
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =  when {
         a <= c && b >= c && b <= d -> b - c // a c b d
         a <= c && b >= d -> d - c // a c d b
         a >= c && b >= d && a <= d -> d - a // c a d b
         a >= c && d >= b -> b - a
         else -> -1 // a b c d + c d a b (a < c && b < c || a > c && b > c)
     }
-}

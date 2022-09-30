@@ -93,7 +93,7 @@ fun fib(n: Int): Int {
     var mpl = 1
     var ml = 1
     var fp = 1
-    if ((n == 1) || (n == 2)) return 1
+    if (n == 1 || n == 2) return 1
     else {
         for (i in 3..n) {
             fp += ml
@@ -124,13 +124,15 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var bigDivisor = 1
-    for (i in 2..n / 2) {
+    for (i in 2..sqrt(n.toDouble()).toInt()) {
         if (n % i == 0) {
-            bigDivisor = i
+            bigDivisor = n / i
+            break
         }
     }
     return bigDivisor
 }
+
 
 /**
  * Простая (2 балла)
@@ -152,11 +154,11 @@ fun collatzSteps(x: Int): Int {
     var countSteps = 0
     var vx = x
     while (vx > 1) {
+        countSteps += 1
         if (vx % 2 == 0) {
-            countSteps += 1
+
             vx /= 2
         } else {
-            countSteps += 1
             vx = 3 * vx + 1
         }
     }
@@ -171,6 +173,7 @@ fun collatzSteps(x: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int = TODO()
+
 /**
  * Средняя (3 балла)
  *
@@ -206,7 +209,7 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = (revert(n) == n)
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 
 /**
@@ -230,11 +233,11 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  */
 fun sin(x: Double, eps: Double): Double {
     var p = x
-    while (p > 2 * PI) {
-        p = p - 2 * PI
+    if (p > 2 * PI) {
+        p %=  2 * PI
     }
-    while (p < 0) {
-        p = p + 2 * PI
+    else if (p < 0) {
+        p %=  abs(2 * PI)
     }
     val vx = p
     var sinOutput = p
@@ -259,11 +262,11 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var p = x
-    while (p > 2 * PI) {
-        p = p - 2 * PI
+    if (p > 2 * PI) {
+        p %=  2 * PI
     }
-    while (p < 0) {
-        p = p + 2 * PI
+    else if (p < 0) {
+        p %=  abs(2 * PI)
     }
     val vx = p
     var cosOutput = 1.0 - vx.pow(2) / 2
