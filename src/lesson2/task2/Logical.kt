@@ -32,9 +32,8 @@ fun isNumberHappy(number: Int): Boolean =
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
-    (x1 == x2 || y1 == y2|| x1 - x2
-            == y1 - y2 || x1 - x2 == y2 - y1)
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = x1 == x2 || y1 == y2
+        || x1 - x2 == y1 - y2 || x1 - x2 == y2 - y1
 
 
 /**
@@ -44,12 +43,14 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
 fun daysInMonth(month: Int, year: Int): Int {
+    var frt:Int
     if (month == 2) {
         if ((year % 400 == 0) || (year % 4 == 0 && year % 100 != 0)) {
-            return 29
-        } else return 28
+            frt = 29
+        } else frt = 28
     } else if (month == 4 || month == 6 || month == 9 || month == 11) return 30
-    else return 31
+    else frt =  31
+    return frt
 }
 
 

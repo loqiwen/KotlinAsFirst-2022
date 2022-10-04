@@ -122,17 +122,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var bigDivisor = 1
-    for (i in 2..sqrt(n.toDouble()).toInt()) {
-        if (n % i == 0) {
-            bigDivisor = n / i
-            break
-        }
-    }
-    return bigDivisor
-}
-
+fun maxDivisor(n: Int): Int = n/ minDivisor(n)
 
 /**
  * Простая (2 балла)
@@ -233,12 +223,7 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  */
 fun sin(x: Double, eps: Double): Double {
     var p = x
-    if (p > 2 * PI) {
-        p %=  2 * PI
-    }
-    else if (p < 0) {
-        p %=  abs(2 * PI)
-    }
+    p %=  abs(2 * PI)
     val vx = p
     var sinOutput = p
     var n = 2
@@ -262,12 +247,8 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var p = x
-    if (p > 2 * PI) {
-        p %=  2 * PI
-    }
-    else if (p < 0) {
         p %=  abs(2 * PI)
-    }
+
     val vx = p
     var cosOutput = 1.0 - vx.pow(2) / 2
     p = -vx.pow(2) / 2
@@ -291,20 +272,16 @@ fun cos(x: Double, eps: Double): Double {
  */
 fun squareSequenceDigit(n: Int): Int {
     var cnum = 0
-    var fret = 0
     for (i in 1..n) {
         cnum += digitNumber(sqr(i))
         if (cnum > n) {
-            fret = sqr(i) / 10.0.pow(cnum - n).toInt() % 10
-            break
-
+            return sqr(i) / 10.0.pow(cnum - n).toInt() % 10
         } else if (cnum == n) {
-            fret = sqr(i) % 10
-            break
+            return sqr(i) % 10
+
         }
     }
-
-    return fret
+    return cnum
 }
 
 /**
@@ -324,14 +301,12 @@ fun fibSequenceDigit(n: Int): Int {
         cnum += digitNumber(fib(i))
         check = fib(i)
         if (cnum > n) {
-            fret = check / 10.0.pow(cnum - n).toInt() % 10
-            break
+            return check / 10.0.pow(cnum - n).toInt() % 10
 
         } else if (cnum == n) {
-            fret = check % 10
-            break
+            return check % 10
         }
     }
 
-    return fret
+    return cnum
 }
