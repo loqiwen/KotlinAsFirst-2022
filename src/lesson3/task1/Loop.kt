@@ -122,7 +122,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = n/ minDivisor(n)
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая (2 балла)
@@ -223,7 +223,7 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  */
 fun sin(x: Double, eps: Double): Double {
     var p = x
-    p %=  abs(2 * PI)
+    p %= abs(2 * PI)
     val vx = p
     var sinOutput = p
     var n = 2
@@ -233,7 +233,6 @@ fun sin(x: Double, eps: Double): Double {
         n += 2
     }
     return sinOutput
-
 }
 
 /**+
@@ -247,7 +246,7 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var p = x
-        p %=  abs(2 * PI)
+    p %= abs(2 * PI)
 
     val vx = p
     var cosOutput = 1.0 - vx.pow(2) / 2
@@ -272,16 +271,13 @@ fun cos(x: Double, eps: Double): Double {
  */
 fun squareSequenceDigit(n: Int): Int {
     var cnum = 0
-    for (i in 1..n) {
+    val i = 0
+    while (true) {
         cnum += digitNumber(sqr(i))
-        if (cnum > n) {
-            return sqr(i) / 10.0.pow(cnum - n).toInt() % 10
-        } else if (cnum == n) {
-            return sqr(i) % 10
-
-        }
+        return if (cnum > n) sqr(i) / 10.0.pow(cnum - n).toInt() % 10
+        else if (cnum == n) sqr(i) % 10
+        else continue
     }
-    return cnum
 }
 
 /**
@@ -295,18 +291,15 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var cnum = 0
-    var fret = 0
-    var check = 0
-    for (i in 1..n) {
-        cnum += digitNumber(fib(i))
-        check = fib(i)
-        if (cnum > n) {
-            return check / 10.0.pow(cnum - n).toInt() % 10
+    var i = 0
+    while (true) {
+        i++
+        val check = fib(i)
+        cnum += digitNumber(check)
+        return if (cnum > n) check / 10.0.pow(cnum - n).toInt() % 10
+        else if (cnum == n) check % 10
+        else continue
 
-        } else if (cnum == n) {
-            return check % 10
-        }
+
     }
-
-    return cnum
 }
