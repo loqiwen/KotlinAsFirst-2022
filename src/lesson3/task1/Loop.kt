@@ -271,13 +271,17 @@ fun cos(x: Double, eps: Double): Double {
  */
 fun squareSequenceDigit(n: Int): Int {
     var cnum = 0
-    val i = 0
+    var i = 0
     while (true) {
+        i++
         cnum += digitNumber(sqr(i))
-        return if (cnum > n) sqr(i) / 10.0.pow(cnum - n).toInt() % 10
-        else if (cnum == n) sqr(i) % 10
-        else continue
+        return when {
+            (cnum > n) -> sqr(i) / 10.0.pow(cnum - n).toInt() % 10
+            (cnum == n) -> sqr(i) % 10
+            else -> continue
+        }
     }
+
 }
 
 /**
@@ -296,10 +300,11 @@ fun fibSequenceDigit(n: Int): Int {
         i++
         val check = fib(i)
         cnum += digitNumber(check)
-        return if (cnum > n) check / 10.0.pow(cnum - n).toInt() % 10
-        else if (cnum == n) check % 10
-        else continue
-
+        return when {
+            (cnum > n) -> check / 10.0.pow(cnum - n).toInt() % 10
+            (cnum == n) -> check % 10
+            else -> continue
+        }
 
     }
 }
