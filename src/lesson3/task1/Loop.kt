@@ -276,8 +276,8 @@ fun squareSequenceDigit(n: Int): Int {
         i++
         cnum += digitNumber(sqr(i))
         return when {
-            (cnum > n) -> sqr(i) / 10.0.pow(cnum - n).toInt() % 10
-            (cnum == n) -> sqr(i) % 10
+            cnum > n -> sqr(i) / 10.0.pow(cnum - n).toInt() % 10
+            cnum == n -> sqr(i) % 10
             else -> continue
         }
     }
@@ -301,8 +301,8 @@ fun fibSequenceDigit(n: Int): Int {
         val check = fib(i)
         cnum += digitNumber(check)
         return when {
-            (cnum > n) -> check / 10.0.pow(cnum - n).toInt() % 10
-            (cnum == n) -> check % 10
+            cnum > n -> check / 10.0.pow(cnum - n).toInt() % 10
+            cnum == n -> check % 10
             else -> continue
         }
 
