@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import java.lang.StringBuilder
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -121,13 +122,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double {
-    var abs = 0.0
-    for (i in 0 until v.size){
-        abs += v[i].pow(2)
-    }
-    return sqrt(abs)
-}
+fun abs(v: List<Double>): Double = sqrt(v.map { it * it }.sum())
+
 
 /**
  * Простая (2 балла)
@@ -145,7 +141,7 @@ fun mean(list: List<Double>): Double = if (list.isNotEmpty()) list.sum() / list.
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val sr = list.sum() / list.size
+    val sr = mean(list)
     for (i in 0 until list.size) {
         list[i] -= sr
     }
@@ -159,14 +155,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int {
-    var c = 0
-    for (i in 0 until a.size) {
-        c += a[i] * b[i]
-    }
-    return c
-}
-
+fun times(a: List<Int>, b: List<Int>): Int = a.mapIndexed { index, i -> i * b[index] }.sum()
 /**
  * Средняя (3 балла)
  *
@@ -175,13 +164,7 @@ fun times(a: List<Int>, b: List<Int>): Int {
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0 при любом x.
  */
-fun polynom(p: List<Int>, x: Int): Int {
-    var px = 0.0
-    for (i in 0 until p.size) {
-        px += p[i] * x.toDouble().pow(i)
-    }
-    return px.toInt()
-}
+fun polynom(p: List<Int>, x: Int): Int = p.mapIndexed { index, i -> i * x.toDouble().pow(index).toInt() }.sum()
 
 /**
  * Средняя (3 балла)
@@ -194,15 +177,8 @@ fun polynom(p: List<Int>, x: Int): Int {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    val flist = list.toList()
-    return if (list.size <= 1) list
-    else {
-        for (i in 0 until list.size) {
-            list[i] += flist.subList(0, i).sum()
-        }
-
-        list
-    }
+    for (i in 1 until list.size) list[i] += list[i - 1]
+    return list
 }
 
 /**
@@ -233,19 +209,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String {
-    var str = ""
-    var vn = n
-    for (i in 2..n) {
-        while (vn > 0) {
-            if (vn % i == 0) {
-                vn /= i
-                str += "$i*"
-            } else break
-        }
-    }
-    return str.substring(0, str.length - 1)
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя (3 балла)
@@ -258,11 +222,11 @@ fun convert(n: Int, base: Int): List<Int> {
     var vn = n
     val list = mutableListOf<Int>()
     while (vn > 0) {
-        list.add(0, vn % base)
+        list.add(vn % base)
         vn /= base
     }
-    if (list.size == 0) return listOf( 0 )
-    return list
+    if (list.isEmpty()) return listOf(0)
+    return list.reversed()
 }
 
 /**
@@ -283,36 +247,7 @@ fun convertToString(n: Int, base: Int): String {
     while (vn > 0) {
         if (vn % base <= 9) {
             str = (vn % base).toString() + str
-        } else {
-            when (vn % base) {
-                10 -> str = "a" + str
-                11 -> str = "b" + str
-                12 -> str = "c" + str
-                13 -> str = "d" + str
-                14 -> str = "e" + str
-                15 -> str = "f" + str
-                16 -> str = "g" + str
-                17 -> str = "h" + str
-                18 -> str = "i" + str
-                19 -> str = "j" + str
-                20 -> str = "k" + str
-                21 -> str = "l" + str
-                22 -> str = "m" + str
-                23 -> str = "n" + str
-                24 -> str = "o" + str
-                25 -> str = "p" + str
-                26 -> str = "q" + str
-                27 -> str = "r" + str
-                28 -> str = "s" + str
-                29 -> str = "t" + str
-                30 -> str = "u" + str
-                31 -> str = "v" + str
-                32 -> str = "w" + str
-                33 -> str = "x" + str
-                34 -> str = "y" + str
-                35 -> str = "z" + str
-            }
-        }
+        } else str = ('a' + (vn % base) - 10) + str
         vn /= base
 
     }
@@ -326,13 +261,8 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int {
-    var decnum = 0
-    for (i in 0 until digits.size) {
-        decnum += digits[i] * base.toDouble().pow(digits.size - 1 - i).toInt()
-    }
-    return decnum
-}
+fun decimal(digits: List<Int>, base: Int): Int =
+    digits.mapIndexed { index, i -> i * base.toDouble().pow(digits.size - 1 - index).toInt() }.sum()
 
 
 /**
@@ -348,37 +278,11 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * (например, str.toInt(base)), запрещается.
  */
 fun decimalFromString(str: String, base: Int): Int {
+    val nums = "0123456789"
     var decnum = 0
     for (i in 0 until str.length) {
-        when (str[i]) {
-            'a' -> decnum += 10 * base.toDouble().pow(str.length - i - 1).toInt()
-            'b' -> decnum += 11 * base.toDouble().pow(str.length - i - 1).toInt()
-            'c' -> decnum += 12 * base.toDouble().pow(str.length - i - 1).toInt()
-            'd' -> decnum += 13 * base.toDouble().pow(str.length - i - 1).toInt()
-            'e' -> decnum += 14 * base.toDouble().pow(str.length - i - 1).toInt()
-            'f' -> decnum += 15 * base.toDouble().pow(str.length - i - 1).toInt()
-            'g' -> decnum += 16 * base.toDouble().pow(str.length - i - 1).toInt()
-            'h' -> decnum += 17 * base.toDouble().pow(str.length - i - 1).toInt()
-            'i' -> decnum += 18 * base.toDouble().pow(str.length - i - 1).toInt()
-            'j' -> decnum += 19 * base.toDouble().pow(str.length - i - 1).toInt()
-            'k' -> decnum += 20 * base.toDouble().pow(str.length - i - 1).toInt()
-            'l' -> decnum += 21 * base.toDouble().pow(str.length - i - 1).toInt()
-            'm' -> decnum += 22 * base.toDouble().pow(str.length - i - 1).toInt()
-            'n' -> decnum += 23 * base.toDouble().pow(str.length - i - 1).toInt()
-            'o' -> decnum += 24 * base.toDouble().pow(str.length - i - 1).toInt()
-            'p' -> decnum += 25 * base.toDouble().pow(str.length - i - 1).toInt()
-            'q' -> decnum += 26 * base.toDouble().pow(str.length - i - 1).toInt()
-            'r' -> decnum += 27 * base.toDouble().pow(str.length - i - 1).toInt()
-            's' -> decnum += 28 * base.toDouble().pow(str.length - i - 1).toInt()
-            't' -> decnum += 29 * base.toDouble().pow(str.length - i - 1).toInt()
-            'u' -> decnum += 30 * base.toDouble().pow(str.length - i - 1).toInt()
-            'v' -> decnum += 31 * base.toDouble().pow(str.length - i - 1).toInt()
-            'w' -> decnum += 32 * base.toDouble().pow(str.length - i - 1).toInt()
-            'x' -> decnum += 33 * base.toDouble().pow(str.length - i - 1).toInt()
-            'y' -> decnum += 34 * base.toDouble().pow(str.length - i - 1).toInt()
-            'z' -> decnum += 35 * base.toDouble().pow(str.length - i - 1).toInt()
-            else -> decnum += str[i].toString().toInt() * base.toDouble().pow(str.length - i - 1).toInt()
-        }
+        if (nums.contains(str[i])) decnum += str[i].toString().toInt() * base.toDouble().pow(str.length - i - 1).toInt()
+        else decnum += (str[i] - 'a' + 10) * base.toDouble().pow(str.length - i - 1).toInt()
     }
     return decnum
 }
@@ -392,47 +296,12 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var vn = n
-    var str = ""
-    while (vn >= 1000) {
-        str += 'M'
-        vn -= 1000
-    }
-    var ch = 0
-    while (vn >= 100) {
-        ch++
-        vn -= 100
-    }
-    when (ch) {
-        in 1..3 -> str += "C".repeat(ch)
-        4 -> str += "CD"
-        5 -> str += "D"
-        in 6..8 -> str += "D" + "C".repeat(ch - 5)
-        9 -> str += "CM"
-        else -> str = str
-    }
-    var cd = 0
-    while (vn >= 10) {
-        cd++
-        vn -= 10
-    }
-    when (cd) {
-        in 1..3 -> str += "X".repeat(cd)
-        4 -> str += "XL"
-        5 -> str += "L"
-        in 6..8 -> str += "L" + "X".repeat(cd - 5)
-        9 -> str += "XC"
-        else -> str = str
-    }
-    when (vn) {
-        in 1..3 -> str += "I".repeat(vn)
-        4 -> str += "IV"
-        5 -> str += "V"
-        in 6..8 -> str += "V" + "I".repeat(vn - 5)
-        9 -> str += "IX"
-        else -> str = str
-    }
-    return str
+    val unt = listOf("", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX")
+    val dec = listOf("", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC")
+    val hun = listOf("", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM")
+    val ths = "M"
+    val res = StringBuilder()
+    return ths.repeat(n / 1000) + hun[(n % 1000) / 100] + dec[(n % 100) / 10] + unt[n % 10]
 }
 
 /**
