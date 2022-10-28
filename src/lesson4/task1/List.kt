@@ -156,6 +156,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
 fun times(a: List<Int>, b: List<Int>): Int = a.mapIndexed { index, i -> i * b[index] }.sum()
+
 /**
  * Средняя (3 балла)
  *
@@ -242,13 +243,16 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var vn = n
+
     var str = ""
     if (n == 0) return "0"
     while (vn > 0) {
-        if (vn % base <= 9) {
-            str = (vn % base).toString() + str
-        } else str = ('a' + (vn % base) - 10) + str
+        val vnbase = vn % base
+        if (vnbase <= 9) {
+            str = (vnbase).toString() + str
+        } else str = ('a' + (vnbase) - 10) + str
         vn /= base
+
 
     }
     return str
@@ -277,15 +281,13 @@ fun decimal(digits: List<Int>, base: Int): Int =
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int {
-    val nums = "0123456789"
-    var decnum = 0
-    for (i in 0 until str.length) {
-        if (nums.contains(str[i])) decnum += str[i].toString().toInt() * base.toDouble().pow(str.length - i - 1).toInt()
-        else decnum += (str[i] - 'a' + 10) * base.toDouble().pow(str.length - i - 1).toInt()
-    }
-    return decnum
+fun charToInt(i: Char): Int = when (i) {
+    in '0'..'9' -> i - '0'
+    else -> i - 'a' + 10
 }
+
+fun decimalFromString(str: String, base: Int): Int =
+    str.mapIndexed { index, c -> charToInt(c) * base.toDouble().pow(str.length - index - 1) }.sum().toInt()
 
 /**
  * Сложная (5 баллов)
@@ -300,7 +302,6 @@ fun roman(n: Int): String {
     val dec = listOf("", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC")
     val hun = listOf("", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM")
     val ths = "M"
-    val res = StringBuilder()
     return ths.repeat(n / 1000) + hun[(n % 1000) / 100] + dec[(n % 100) / 10] + unt[n % 10]
 }
 

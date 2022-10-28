@@ -16,8 +16,7 @@ package lesson5.task1
  * игнорируется.
  */
 fun shoppingListCost(
-    shoppingList: List<String>,
-    costs: Map<String, Double>
+    shoppingList: List<String>, costs: Map<String, Double>
 ): Double {
     var totalCost = 0.0
 
@@ -38,8 +37,7 @@ fun shoppingListCost(
  * для которых телефон начинается с заданного кода страны `countryCode`
  */
 fun filterByCountryCode(
-    phoneBook: MutableMap<String, String>,
-    countryCode: String
+    phoneBook: MutableMap<String, String>, countryCode: String
 ) {
     val namesToRemove = mutableListOf<String>()
 
@@ -61,8 +59,7 @@ fun filterByCountryCode(
  * и вернуть отфильтрованный текст
  */
 fun removeFillerWords(
-    text: List<String>,
-    vararg fillerWords: String
+    text: List<String>, vararg fillerWords: String
 ): List<String> {
     val fillerWordSet = setOf(*fillerWords)
 
@@ -106,8 +103,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
 
 
     }
-    for ((key) in res) res[key]!!.toList()
-    return res.toMap()
+    return res
 
 }
 
@@ -123,13 +119,12 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
-    if (a.size <= b.size) {
-        for ((key, vl) in a) {
-            if (b[key] == vl) continue
-            else return false
-        }
-        return true
-    } else return false
+    if (a.size > b.size) return false
+    for ((key, vl) in a) {
+        if (b[key] == vl) continue
+        else return false
+    }
+    return true
 }
 
 /**
@@ -160,13 +155,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * В выходном списке не должно быть повторяющихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val res = mutableSetOf<String>()
-    for (people in a) {
-        if (b.contains(people)) res.add(people)
-    }
-    return res.toList()
-}
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = (a intersect b).toList()
 
 /**
  * Средняя (3 балла)
@@ -199,22 +188,7 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-    val res = mutableMapOf<String, Double>()
-    val resnum = mutableMapOf<String, Int>()
-    for ((name, price) in stockPrices) {
-        if (res[name] != null) {
-            res[name] = res[name]!! + price
-            resnum[name] = resnum[name]!! + 1
-        } else {
-            res[name] = price
-            resnum[name] = 1
-        }
-    }
-    for ((name, price) in res) res[name] = price / resnum[name]!!
-    return res
-}
-
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
 
 /**
  * Средняя (4 балла)
@@ -257,18 +231,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> {
-    val res = mutableMapOf<String, Int>()
-    val elemcount = mutableMapOf<String, Int>()
-    for (i in list) {
-        if (elemcount[i] != null) elemcount[i] = elemcount[i]!! + 1
-        else elemcount[i] = 1
+fun extractRepeats(list: List<String>): Map<String, Int> = list.groupingBy { it }.eachCount().filterValues { it > 1 }
 
-    }
-    for ((elem, count) in elemcount)
-        if (count > 1) res[elem] = count
-    return res
-}
 
 /**
  * Средняя (3 балла)
@@ -338,12 +302,10 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-
-    for (i in 0 until list.size) {
-        for (j in i + 1 until list.size)
-            if (list[i] + list[j] == number) return Pair(i, j)
-    }
-
+    for (i in list.indices) if (list.contains(number - list[i]) && list.indexOf(number - list[i]) != i) return Pair(
+        i,
+        list.indexOf(number - list[i])
+    )
     return Pair(-1, -1)
 }
 
