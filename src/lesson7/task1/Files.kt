@@ -3,6 +3,8 @@
 package lesson7.task1
 
 import java.io.File
+import java.util.*
+import kotlin.math.max
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -63,7 +65,17 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Подчёркивание в середине и/или в конце строк значения не имеет.
  */
 fun deleteMarked(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    for (line in File(inputName).readLines()) {
+        if (line.isNotEmpty()) {
+            if (line[0] != '_') {
+                writer.write(line)
+                writer.newLine()
+            }
+        } else writer.newLine()
+        continue
+    }
+    writer.close()
 }
 
 /**
@@ -75,7 +87,21 @@ fun deleteMarked(inputName: String, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+    val reader = File(inputName).readLines()
+    val frt = mutableMapOf<String, Int>()
+    for (i in substrings) frt[i] = 0
+    for (lines in reader) {
+        val line = lines.lowercase()
+        for (i in substrings) {
+            if (i.lowercase() in line) {
+                frt[i] = frt[i]!! + line.split(i.lowercase()).size - 1
+            }
+        }
+    }
+
+    return frt
+}
 
 
 /**
@@ -113,8 +139,16 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    var mlen = 0
+    for (line in File(inputName).readLines()) if (line.length > mlen) mlen = line.length
+    for (line in File(inputName).readLines()) {
+        writer.write(" ".repeat((mlen - line.trim().length) / 2) + line.trim())
+        writer.newLine()
+    }
+    writer.close()
 }
+
 
 /**
  * Сложная (20 баллов)
@@ -167,7 +201,11 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  * Ключи в ассоциативном массиве должны быть в нижнем регистре.
  *
  */
-fun top20Words(inputName: String): Map<String, Int> = TODO()
+
+
+fun top20Words(inputName: String): Map<String, Int> {
+    TODO()
+}
 
 /**
  * Средняя (14 баллов)
@@ -232,8 +270,17 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  *
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
+fun checkWord(word: String): Boolean =
+    word.lowercase().toList() == word.lowercase().toSet().toList()
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    val res = mutableListOf<String>()
+    val reader = File(inputName).readLines()
+    val writer = File(outputName).bufferedWriter()
+    for (line in reader) res.add(line)
+    val ml = res.maxOf { it.length }
+    print(res.filter { it.length == ml && checkWord(it) })
+    writer.write(res.filter { it.length == ml && checkWord(it) }.joinToString(separator = ", "))
+    writer.close()
 }
 
 /**
