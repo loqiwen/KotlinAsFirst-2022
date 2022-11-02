@@ -100,11 +100,8 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
         val ch = res[marks]
         if (ch != null) ch.add(studs)
         else res[marks] = mutableListOf(studs)
-
-
     }
     return res
-
 }
 
 

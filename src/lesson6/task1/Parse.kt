@@ -3,8 +3,7 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
-import lesson5.task1.extractRepeats
-import java.lang.Integer.max
+
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -84,20 +83,20 @@ fun dateStrToDigit(str: String): String {
     val dayn = if (date[0].length == 2) date[0] else "0" + date[0]
     val month = date[1]
     val year = date[2]
-    val mtr : String
-    when (month) {
-        "января" -> mtr = "01"
-        "февраля" -> mtr = "02"
-        "марта" -> mtr = "03"
-        "апреля" -> mtr = "04"
-        "мая" -> mtr = "05"
-        "июня" -> mtr = "06"
-        "июля" -> mtr = "07"
-        "августа" -> mtr = "08"
-        "сентября" -> mtr = "09"
-        "октября" -> mtr = "10"
-        "ноября" -> mtr = "11"
-        "декабря" -> mtr = "12"
+    val mtr: String
+    mtr = when (month) {
+        "января" -> "01"
+        "февраля" -> "02"
+        "марта" -> "03"
+        "апреля" -> "04"
+        "мая" -> "05"
+        "июня" -> "06"
+        "июля" -> "07"
+        "августа" -> "08"
+        "сентября" -> "09"
+        "октября" -> "10"
+        "ноября" -> "11"
+        "декабря" -> "12"
         else -> return ""
     }
     if (daysInMonth(mtr.toInt(), year.toInt()) < dayn.toInt()) return ""
@@ -124,19 +123,19 @@ fun dateDigitToStr(digital: String): String {
     val mtr: String
     try {
         if (daysInMonth(month.toInt(), year.toInt()) < dayn.toInt()) return ""
-        when (month) {
-            "01" -> mtr = "января"
-            "02" -> mtr = "февраля"
-            "03" -> mtr = "марта"
-            "04" -> mtr = "апреля"
-            "05" -> mtr = "мая"
-            "06" -> mtr = "июня"
-            "07" -> mtr = "июля"
-            "08" -> mtr = "августа"
-            "09" -> mtr = "сентября"
-            "10" -> mtr = "октября"
-            "11" -> mtr = "ноября"
-            "12" -> mtr = "декабря"
+        mtr = when (month) {
+            "01" -> "января"
+            "02" -> "февраля"
+            "03" -> "марта"
+            "04" -> "апреля"
+            "05" -> "мая"
+            "06" -> "июня"
+            "07" -> "июля"
+            "08" -> "августа"
+            "09" -> "сентября"
+            "10" -> "октября"
+            "11" -> "ноября"
+            "12" -> "декабря"
             else -> return ""
         }
         return String.format("%s %s %s", dayn, mtr, year)
@@ -160,15 +159,9 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
-    val notBannedSymb = "0123456789+-() "
-    var res = ""
-    if ("()" in phone) return ""
+    return if (!Regex("^(\\+\\d+)?[\\s-]*(\\([\\d\\s-]+\\))?[\\d-\\s]+\$").matches(phone)) ""
+    else phone.filter { it -> it.isDigit() || it == '+' }
 
-    for (i in phone) {
-        if (i !in notBannedSymb) return ""
-        if (i !in "- ()") res += i
-    }
-    return res
 }
 
 /**
@@ -182,14 +175,9 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val notBanned = "0123456789 %-"
-    val dst = jumps.split(" ")
-    val len = mutableListOf<Int>()
-    for (j in dst) {
-        if (j.all { it !in notBanned }) return -1
-        if (j.toIntOrNull() != null) len.add(j.toInt())
-    }
-    return if (len.size > 0) len.max() else -1
+    val res = Regex("\\d+").findAll(jumps).toList().map { it.value.toInt() }
+    return if (!Regex("^[\\d\\-\\s%]+$").matches(jumps) || res.isEmpty()) -1
+    else res.max()
 }
 
 /**
@@ -204,19 +192,9 @@ fun bestLongJump(jumps: String): Int {
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    val trys = jumps.split(" ")
-    val notBanned = "0123456789+-% "
-    val res = mutableListOf<Int>()
-    try {
-        for (high in 0 until trys.size step 2) {
-            if (trys[high].all { it !in notBanned } || trys[high].all { it !in notBanned }) return -1
-            if ("+" in trys[high + 1]) res.add(trys[high].toInt())
-        }
-        return res.max()
-    }
-    catch (e:NoSuchElementException) {
-        return -1
-    }
+    val res = Regex("\\d+\\s%*\\+").findAll(jumps).toList().map { it.value.split(" ")[0].toInt() }
+    return if (!Regex("^[+\\d\\-\\s%]+\$").matches(jumps) || res.isEmpty()) -1
+    else res.max()
 }
 
 /**
@@ -229,17 +207,15 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
+    if (!Regex("\\d+(\\s[+-]\\s\\d+)*").matches(expression)) throw IllegalArgumentException()
     val pmn = expression.split(" ")
-    var res = if (pmn[0].contains("+") ||pmn[0].contains("-")) throw IllegalArgumentException() else pmn[0].toInt()
+    var res = pmn[0].toInt()
     for (i in 2..pmn.size step 2) {
         if (pmn[i - 1] in "+-" && pmn[i].all { it in "0123456789" }) {
             if (pmn[i - 1] == "+") res += pmn[i].toInt()
             else res -= pmn[i].toInt()
-        } else throw IllegalArgumentException()
-
+        }
     }
-
-
     return res
 }
 

@@ -3,7 +3,6 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import java.lang.StringBuilder
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -249,8 +248,8 @@ fun convertToString(n: Int, base: Int): String {
     while (vn > 0) {
         val vnbase = vn % base
         if (vnbase <= 9) {
-            str = (vnbase).toString() + str
-        } else str = ('a' + (vnbase) - 10) + str
+            str = vnbase.toString() + str
+        } else str = ('a' + vnbase - 10) + str
         vn /= base
 
 
@@ -287,8 +286,7 @@ fun charToInt(i: Char): Int = when (i) {
 }
 
 fun decimalFromString(str: String, base: Int): Int =
-    str.mapIndexed { index, c -> charToInt(c) * base.toDouble().pow(str.length - index - 1) }.sum().toInt()
-
+    decimal(str.map { charToInt(it) }, base)
 /**
  * Сложная (5 баллов)
  *
