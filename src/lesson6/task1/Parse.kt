@@ -3,6 +3,7 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
+import lesson4.task1.charToInt
 
 
 // Урок 6: разбор строк, исключения
@@ -211,7 +212,7 @@ fun plusMinus(expression: String): Int {
     val pmn = expression.split(" ")
     var res = pmn[0].toInt()
     for (i in 2..pmn.size step 2) {
-        if (pmn[i - 1] in "+-" && pmn[i].all { it in "0123456789" }) {
+        if (pmn[i - 1] in "+-" && pmn[i].all { charToInt(it) in 0..9 }) {
             if (pmn[i - 1] == "+") res += pmn[i].toInt()
             else res -= pmn[i].toInt()
         }
