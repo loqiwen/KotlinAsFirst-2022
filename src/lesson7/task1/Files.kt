@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import java.io.FileWriter
 import java.util.*
 import kotlin.math.max
 
@@ -64,8 +65,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Все остальные строки должны быть перенесены без изменений, включая пустые строки.
  * Подчёркивание в середине и/или в конце строк значения не имеет.
  */
-fun deleteMarked(inputName: String, outputName: String) {
-    val writer = File(outputName).bufferedWriter()
+fun deleteMarked(inputName: String, outputName: String) = File(outputName).bufferedWriter().use { writer ->
     for (line in File(inputName).readLines()) {
         if (line.isNotEmpty()) {
             if (line[0] != '_') {
@@ -75,8 +75,8 @@ fun deleteMarked(inputName: String, outputName: String) {
         } else writer.newLine()
         continue
     }
-    writer.close()
 }
+
 
 /**
  * Средняя (14 баллов)
@@ -124,15 +124,13 @@ fun sibilants(inputName: String, outputName: String) {
  * 4) Число строк в выходном файле должно быть равно числу строк во входном (в т. ч. пустых)
  *
  */
-fun centerFile(inputName: String, outputName: String) {
-    val writer = File(outputName).bufferedWriter()
+fun centerFile(inputName: String, outputName: String) = File(outputName).bufferedWriter().use { writer ->
     var mlen = 0
     for (line in File(inputName).readLines()) if (line.trim().length > mlen) mlen = line.trim().length
     for (line in File(inputName).readLines()) {
         writer.write(" ".repeat((mlen - line.trim().length) / 2) + line.trim())
         writer.newLine()
     }
-    writer.close()
 }
 
 
@@ -258,16 +256,13 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  */
 fun checkWord(word: String): Boolean =
     word.lowercase().toList() == word.lowercase().toSet().toList()
-fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    val res = mutableListOf<String>()
-    val reader = File(inputName).readLines()
-    val writer = File(outputName).bufferedWriter()
 
-    for (line in reader) if (checkWord(line)) res.add(line)
+fun chooseLongestChaoticWord(inputName: String, outputName: String) = File(outputName).bufferedWriter().use { writer ->
+    val res = mutableListOf<String>()
+    for (line in File(inputName).readLines()) if (checkWord(line)) res.add(line)
     val ml = res.maxOfOrNull { it.length }
     writer.write(res.filter { it.length == ml }.joinToString(separator = ", "))
     writer.write("")
-    writer.close()
 }
 
 /**
