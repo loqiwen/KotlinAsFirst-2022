@@ -125,6 +125,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int = when {
     blackOrWhiteChess(start) != blackOrWhiteChess(end) -> -1
     start == end -> 0
     abs(start.column - end.column) == abs(start.row - end.row) -> 1
+    !start.inside() || !end.inside() -> throw IllegalArgumentException()
     else -> 2
 }
 
@@ -170,7 +171,7 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
             )
             else if (abs((start.column - i) - end.column) == abs((start.row - i) - end.row) && (start.column - i) in 1..8 && (start.row - i) in 1..8) return listOf(
                 start,
-                Square(abs((start.column + i)), abs((start.row + i))),
+                Square(abs((start.column - i)), abs((start.row - i))),
                 end
             )
     }
