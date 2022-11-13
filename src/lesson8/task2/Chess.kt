@@ -35,12 +35,13 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square =
-    if (notation[0] in 'a'..'h' && charToInt(notation[1]) in 1..8 && notation.length == 2) Square(
+fun square(notation: String): Square {
+    return if (notation[0] in 'a'..'h' && charToInt(notation[1]) in 1..8 && notation.length == 2) Square(
         notation[0] - 'a' + 1,
         charToInt(notation[1])
     )
     else throw IllegalArgumentException()
+}
 
 /**
  * Простая (2 балла)
@@ -121,12 +122,15 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun blackOrWhiteChess(square: Square): String = if (square.column % 2 == square.row % 2) "black" else "white"
-fun bishopMoveNumber(start: Square, end: Square): Int = when {
-    blackOrWhiteChess(start) != blackOrWhiteChess(end) -> -1
-    start == end -> 0
-    abs(start.column - end.column) == abs(start.row - end.row) -> 1
-    !start.inside() || !end.inside() -> throw IllegalArgumentException()
-    else -> 2
+fun bishopMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    return when {
+        blackOrWhiteChess(start) != blackOrWhiteChess(end) -> -1
+        start == end -> 0
+        abs(start.column - end.column) == abs(start.row - end.row) -> 1
+        !start.inside() || !end.inside() -> throw IllegalArgumentException()
+        else -> 2
+    }
 }
 
 
