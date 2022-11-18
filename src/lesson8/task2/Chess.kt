@@ -36,12 +36,12 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    if (notation.length == 2)
+    if (notation.length == 2) {
         if (notation[0] in 'a'..'h' && charToInt(notation[1]) in 1..8) return Square(
             notation[0] - 'a' + 1,
             charToInt(notation[1])
         )
-
+    }
     throw IllegalArgumentException()
 }
 
@@ -123,7 +123,7 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun blackOrWhiteChess(square: Square): String = if (square.column % 2 == square.row % 2) "black" else "white"
+fun blackOrWhiteChess(square: Square): Boolean = square.column % 2 == square.row % 2
 fun bishopMoveNumber(start: Square, end: Square): Int {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
     return when {

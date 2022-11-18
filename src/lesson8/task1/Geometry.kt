@@ -4,10 +4,8 @@ package lesson8.task1
 
 import lesson1.task1.sqr
 import lesson1.task1.thirdDigit
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+import kotlin.jvm.internal.Intrinsics.Kotlin
+import kotlin.math.*
 
 // Урок 8: простые классы
 // Максимальное количество баллов = 40 (без очень трудных задач = 11)
@@ -175,7 +173,12 @@ fun lineByPoints(a: Point, b: Point): Line = TODO()
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val midAB = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
+    val kpAB = if (b.x - a.x > 0.0) -(b.y - a.y) / (b.x - a.x) else 0.0
+    val prpAngle = if (b.y - a.y == 0.0) PI / 2 else if (kpAB < 0) atan(kpAB + PI) else atan(kpAB)
+    return Line(Point(midAB.x, midAB.y), prpAngle)
+}
 
 /**
  * Средняя (3 балла)
