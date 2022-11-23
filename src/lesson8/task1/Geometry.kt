@@ -128,7 +128,7 @@ fun circleByDiameter(diameter: Segment): Circle = TODO()
  * или: y * cos(angle) = x * sin(angle) + b, где b = point.y * cos(angle) - point.x * sin(angle).
  * Угол наклона обязан находиться в диапазоне от 0 (включительно) до PI (исключительно).
  */
-class Line private constructor(val b: Double, val angle: Double) {
+class Line constructor(val b: Double, val angle: Double) {
     init {
         require(angle >= 0 && angle < PI) { "Incorrect line angle: $angle" }
     }
@@ -176,8 +176,9 @@ fun lineByPoints(a: Point, b: Point): Line = TODO()
 fun bisectorByPoints(a: Point, b: Point): Line {
     val midAB = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
     val kpAB = if (b.x - a.x != 0.0) -(b.y - a.y) / (b.x - a.x) else 0.0
-    val prpAngle = if (b.y - a.y == 0.0) PI / 2 else if (kpAB < 0) atan(kpAB + PI) else atan(kpAB)
+    val prpAngle = if (b.y - a.y == 0.0) PI / 2 else if (kpAB < 0) atan2((b.x - a.x), -(b.y - a.y)) else atan2((b.x - a.x), -(b.y - a.y))
     return Line(Point(midAB.x, midAB.y), prpAngle)
+
 }
 
 /**
