@@ -176,7 +176,7 @@ fun lineByPoints(a: Point, b: Point): Line = TODO()
 fun bisectorByPoints(a: Point, b: Point): Line {
     val midAB = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
     val kpAB = if (b.x - a.x != 0.0) -(b.y - a.y) / (b.x - a.x) else 0.0
-    val prpAngle = if (kpAB<0) atan2((b.x - a.x), -(b.y - a.y)) + PI else atan2((b.x - a.x), -(b.y - a.y))
+    val prpAngle = if (kpAB < 0) atan2((b.x - a.x), -(b.y - a.y)) + PI else atan2((b.x - a.x), -(b.y - a.y))
     return Line(Point(midAB.x, midAB.y), prpAngle)
 
 }
