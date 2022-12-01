@@ -2,6 +2,8 @@
 
 package lesson9.task1
 
+import java.lang.IllegalArgumentException
+
 // Урок 9: проектирование классов
 // Максимальное количество баллов = 40 (без очень трудных задач = 15)
 
@@ -9,6 +11,7 @@ package lesson9.task1
  * Ячейка матрицы: row = ряд, column = колонка
  */
 data class Cell(val row: Int, val column: Int)
+data class MutablePair<X, Y>(var first: X, var second: Y)
 
 /**
  * Интерфейс, описывающий возможности матрицы. E = тип элемента матрицы
@@ -44,32 +47,53 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = MatrixImpl(height, width, e)
 
 /**
  * Средняя сложность (считается двумя задачами в 3 балла каждая)
  *
  * Реализация интерфейса "матрица"
  */
-class MatrixImpl<E> : Matrix<E> {
-    override val height: Int = TODO()
+class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : Matrix<E> {
+    private val matrixCells = mutableMapOf<Cell, E>()
 
-    override val width: Int = TODO()
+    init {
+        for (i in 0..height) {
+            for (j in 0..width) {
+                val now = mutableMapOf<Cell, E>()
+                now[Cell(i, j)] = e
+            }
+        }
+    }
 
-    override fun get(row: Int, column: Int): E = TODO()
+    override fun get(row: Int, column: Int): E {
+        if (row in 0 until height && column in 0 until width) return matrixCells[Cell(row, column)]!!
+        throw IllegalArgumentException()
+    }
 
-    override fun get(cell: Cell): E = TODO()
+    override fun get(cell: Cell): E {
+        if (cell.row in 0 until height && cell.column in 0 until width) return matrixCells[cell]!!
+        throw IllegalArgumentException()
+    }
 
     override fun set(row: Int, column: Int, value: E) {
-        TODO()
+        matrixCells[Cell(row, column)] = value
     }
 
     override fun set(cell: Cell, value: E) {
-        TODO()
+        matrixCells[cell] = value
     }
 
-    override fun equals(other: Any?) = TODO()
+    override fun equals(other: Any?) = other is MatrixImpl<*> &&
+            height == other.height &&
+            width == other.width
 
     override fun toString(): String = TODO()
+    override fun hashCode(): Int {
+        var result = width
+        result = 31 * result + height
+        result = 31 * result + matrixCells.hashCode()
+        return result
+    }
 }
 

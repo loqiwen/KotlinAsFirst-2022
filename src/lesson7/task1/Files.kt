@@ -65,17 +65,18 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Все остальные строки должны быть перенесены без изменений, включая пустые строки.
  * Подчёркивание в середине и/или в конце строк значения не имеет.
  */
-fun deleteMarked(inputName: String, outputName: String) = File(outputName).bufferedWriter().use { writer ->
-    for (line in File(inputName).readLines()) {
-        if (line.isNotEmpty()) {
-            if (line[0] != '_') {
-                writer.write(line)
-                writer.newLine()
-            }
-        } else writer.newLine()
-        continue
+fun deleteMarked(inputName: String, outputName: String) =
+    File(outputName).bufferedWriter().use { writer ->
+        for (line in File(inputName).readLines()) {
+            if (line.isNotEmpty()) {
+                if (line[0] != '_') {
+                    writer.write(line)
+                    writer.newLine()
+                }
+            } else writer.newLine()
+            continue
+        }
     }
-}
 
 
 /**
@@ -227,6 +228,14 @@ fun top20Words(inputName: String): Map<String, Int> {
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
+//    val writer = File(outputName).bufferedWriter()
+//    for (lines in File(inputName).readLines()) {
+//        val ln = lines.split(" ")
+//        for (s in ln) {
+//            s.map { if (dictionary[it] != null) dictionary[it]  }
+//        }
+//    }
+//    writer.newLine()
     TODO()
 }
 
@@ -311,6 +320,37 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
+//    File(outputName).bufferedWriter().use {
+//        it.write("<html>\n<body>\n<p>")
+//        var el = -1
+//        for (line in File(inputName).readLines()) {
+//            if (line.isEmpty()) {
+//                el++
+//                if (el % 2 == 0) it.write("<p>") else it.write("</p>")
+//            } else if (line.contains("~~")) {
+//                val s = line.split("~~")
+//                for (i in 0 until (s.size))
+//                    if (i % 2 == 0) it.write("<s>" + s[i]) else it.write(s[i] + "</s>")
+//            } else if (line.contains(Regex("""[a-zA-Z]*\*{1}[a-zA-Z]*"""))) {
+//                val s = line.split(Regex("""[a-zA-Z]*\*{1}[a-zA-Z]*"""))
+//                for (i in 0 until (s.size))
+//                    if (i % 2 == 0) it.write("<i>" + s[i]) else it.write(s[i] + "</i>")
+//            } else if (line.contains(Regex("""[a-zA-Z]*\*{2}[a-zA-Z]*"""))) {
+//                val s = line.split(Regex("""[a-zA-Z]*\*{2}[a-zA-Z]*"""))
+//                for (i in 0 until (s.size))
+//                    if (i % 2 == 0) it.write("<b>" + s[i]) else it.write(s[i] + "</b>")
+//            } else if (line.contains("**")) {
+//                val s = line.split("**")
+//                for (i in 0 until (s.size)) if (i % 2 == 0) it.write("<b>" + s[i]) else it.write(s[i] + "</b>")
+//                for (i in 0 until (s.size)) {
+//                    val kurs = s[i].split("*")
+//                    for (j in kurs.indices) if (i % 2 == 0) it.write("<i>" + kurs[j]) else it.write(kurs[j] + "</i>")
+//                }
+//            }
+//            it.newLine()
+//        }
+//        it.write("</p>\n</body>\n</html>")
+//    }
     TODO()
 }
 

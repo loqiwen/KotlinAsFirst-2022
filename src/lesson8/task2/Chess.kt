@@ -70,13 +70,12 @@ fun square(notation: String): Square {
  */
 
 fun rookMoveNumber(start: Square, end: Square): Int {
-    if (start.column in 1..8 && start.row in 1..8 && end.column in 1..8 && end.row in 1..8) {
-        return when {
-            start == end -> 0
-            start.row == end.row || start.column == end.column -> 1
-            else -> 2
-        }
-    } else throw IllegalArgumentException()
+    return if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    else when {
+        start == end -> 0
+        start.row == end.row || start.column == end.column -> 1
+        else -> 2
+    }
 }
 
 /**
@@ -93,12 +92,7 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> {
-    val res = mutableSetOf(start)
-    if (start.column != end.column && start.row != end.row) res.add(Square(start.column, end.row))
-    res.add(end)
-    return res.toList()
-}
+fun rookTrajectory(start: Square, end: Square): List<Square> = setOf(start, Square(start.column, end.row), end).toList()
 
 /**
  * Простая (2 балла)
