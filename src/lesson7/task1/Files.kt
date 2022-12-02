@@ -322,7 +322,6 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val reader = File(inputName).readText()
     val result = File(outputName).bufferedWriter()
-    //val inputReplace = Regex("""~~([\s\S]*)~~""").replace(reader) { "<s>" + it.value.replace("~~", "") + "</s>" }.replace(reader) { "<b>" + it.value.replace("**", "") + "</b>" }.replace(reader) { "<p>" + it.value.replace("**", "") + "</p>" }.split("\n")
     val inputReplace = Regex("""~~([\s\S]*?)~~""").replace(reader) { "<s>" + it.value.replace("~~", "") + "</s>" }
     val dstrReplace =
         Regex("""\*\*([\s\S]*?)\*\*""").replace(inputReplace) { "<b>" + it.value.replace("**", "") + "</b>" }
@@ -331,8 +330,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             .toMutableList()
     for (ind in taggedText.indices) {
         if (taggedText[ind].trim().isEmpty() && taggedText[ind - 1].trim()
-                .isNotEmpty() && ind + 1 < taggedText.size && taggedText[ind + 1].trim().isNotEmpty()
-        ) {
+                .isNotEmpty() && ind + 1 < taggedText.size) {
             taggedText[ind] = "</p><p>"
         }
     }
