@@ -45,66 +45,31 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = MatrixImpl(height, width, e)
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
 
 /**
  * Средняя сложность (считается двумя задачами в 3 балла каждая)
  *
  * Реализация интерфейса "матрица"
  */
-class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : Matrix<E> {
-    private val matrixCells = mutableMapOf<Cell, E>()
+class MatrixImpl<E> : Matrix<E> {
+    override val height: Int = TODO()
 
-    init {
-        for (i in 0..height) {
-            for (j in 0..width) {
-                val now = mutableMapOf<Cell, E>()
-                now[Cell(i, j)] = e
-            }
-        }
-    }
+    override val width: Int = TODO()
 
-    override fun get(row: Int, column: Int): E {
-        if (row in 0 until height && column in 0 until width) return matrixCells[Cell(row, column)]!!
-        throw IllegalArgumentException()
-    }
+    override fun get(row: Int, column: Int): E = TODO()
 
-    override fun get(cell: Cell): E {
-        if (cell.row in 0 until height && cell.column in 0 until width) return matrixCells[cell]!!
-        throw IllegalArgumentException()
-    }
+    override fun get(cell: Cell): E = TODO()
 
     override fun set(row: Int, column: Int, value: E) {
-        matrixCells[Cell(row, column)] = value
+        TODO()
     }
 
     override fun set(cell: Cell, value: E) {
-        matrixCells[cell] = value
+        TODO()
     }
 
-    override fun equals(other: Any?) = other is MatrixImpl<*> &&
-            height == other.height &&
-            width == other.width
+    override fun equals(other: Any?) = TODO()
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append("[")
-        for (row in 0..height) {
-            sb.append("[")
-            for (column in 0..width) {
-                sb.append(this[row - 1, column - 1])
-            }
-            sb.append("]")
-        }
-        sb.append("]")
-        return sb.toString()
-    }
-
-    override fun hashCode(): Int {
-        var result = width
-        result = 31 * result + height
-        result = 31 * result + matrixCells.hashCode()
-        return result
-    }
+    override fun toString(): String = TODO()
 }
-
