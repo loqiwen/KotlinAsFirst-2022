@@ -320,38 +320,24 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-//    File(outputName).bufferedWriter().use {
-//        it.write("<html>\n<body>\n<p>")
-//        var el = -1
-//        for (line in File(inputName).readLines()) {
-//            if (line.isEmpty()) {
-//                el++
-//                if (el % 2 == 0) it.write("<p>") else it.write("</p>")
-//            } else if (line.contains("~~")) {
-//                val s = line.split("~~")
-//                for (i in 0 until (s.size))
-//                    if (i % 2 == 0) it.write("<s>" + s[i]) else it.write(s[i] + "</s>")
-//            } else if (line.contains(Regex("""[a-zA-Z]*\*{1}[a-zA-Z]*"""))) {
-//                val s = line.split(Regex("""[a-zA-Z]*\*{1}[a-zA-Z]*"""))
-//                for (i in 0 until (s.size))
-//                    if (i % 2 == 0) it.write("<i>" + s[i]) else it.write(s[i] + "</i>")
-//            } else if (line.contains(Regex("""[a-zA-Z]*\*{2}[a-zA-Z]*"""))) {
-//                val s = line.split(Regex("""[a-zA-Z]*\*{2}[a-zA-Z]*"""))
-//                for (i in 0 until (s.size))
-//                    if (i % 2 == 0) it.write("<b>" + s[i]) else it.write(s[i] + "</b>")
-//            } else if (line.contains("**")) {
-//                val s = line.split("**")
-//                for (i in 0 until (s.size)) if (i % 2 == 0) it.write("<b>" + s[i]) else it.write(s[i] + "</b>")
-//                for (i in 0 until (s.size)) {
-//                    val kurs = s[i].split("*")
-//                    for (j in kurs.indices) if (i % 2 == 0) it.write("<i>" + kurs[j]) else it.write(kurs[j] + "</i>")
-//                }
-//            }
-//            it.newLine()
-//        }
-//        it.write("</p>\n</body>\n</html>")
-//    }
-    TODO()
+    val reader = File(inputName).readText()
+    val result = File(outputName).bufferedWriter()
+    //val inputReplace = Regex("""~~([\s\S]*)~~""").replace(reader) { "<s>" + it.value.replace("~~", "") + "</s>" }.replace(reader) { "<b>" + it.value.replace("**", "") + "</b>" }.replace(reader) { "<p>" + it.value.replace("**", "") + "</p>" }.split("\n")
+    val inputReplace = Regex("""~~([\s\S]*?)~~""").replace(reader) { "<s>" + it.value.replace("~~", "") + "</s>" }
+    val dstrReplace =
+        Regex("""\*\*([\s\S]*?)\*\*""").replace(inputReplace) { "<b>" + it.value.replace("**", "") + "</b>" }
+    val taggedText =
+        Regex("""\*([\s\S]*?)\*""").replace(dstrReplace) { "<i>" + it.value.replace("*", "") + "</i>" }.split("\n")
+            .toMutableList()
+    for (ind in taggedText.indices) {
+        if (taggedText[ind].trim().isEmpty() && taggedText[ind - 1].trim()
+                .isNotEmpty() && ind + 1 < taggedText.size && taggedText[ind + 1].trim().isNotEmpty()
+        ) {
+            taggedText[ind] = "</p><p>"
+        }
+    }
+    result.write("<html><body><p>${taggedText.joinToString(separator = "")}</p></body></html>")
+    result.close()
 }
 
 /**
