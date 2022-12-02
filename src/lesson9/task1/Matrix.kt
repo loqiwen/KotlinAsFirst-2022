@@ -2,8 +2,6 @@
 
 package lesson9.task1
 
-import java.lang.IllegalArgumentException
-
 // Урок 9: проектирование классов
 // Максимальное количество баллов = 40 (без очень трудных задач = 15)
 
@@ -91,10 +89,10 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     override fun toString(): String {
         val sb = StringBuilder()
         sb.append("[")
-        for (row in 0..height - 1) {
+        for (row in 0..height) {
             sb.append("[")
-            for (column in 0..width - 1) {
-                sb.append(this[row, column])
+            for (column in 0..width) {
+                sb.append(this[row - 1, column - 1])
             }
             sb.append("]")
         }
