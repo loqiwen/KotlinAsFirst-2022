@@ -330,7 +330,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             .toMutableList()
     for (ind in taggedText.indices) {
         if (ind != 0 && taggedText[ind].trim().isEmpty() && taggedText[ind - 1].trim()
-                .isNotEmpty() && ind + 1 < taggedText.size
+                .isNotEmpty() && ind + 1 < taggedText.size && taggedText[ind + 1].trim().isNotEmpty()
         ) {
             taggedText[ind] = "</p><p>"
         }
