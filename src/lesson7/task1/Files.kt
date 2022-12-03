@@ -334,7 +334,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     for (ind in taggedText.indices) {
         if (taggedText[ind].replace(Regex("""\s"""), "").isEmpty()) {
             if (lastLineNotEmpty && lastCheckNotEmpty >= 0) {
-                if (ind + 1 < taggedText.size) {
+                if (ind + 1 < taggedText.size && taggedText[ind + 1].replace(Regex("""\s"""), "").isNotEmpty()) {
                     taggedText[ind] = "</p><p>"
                     lastLineNotEmpty = false
                 }
