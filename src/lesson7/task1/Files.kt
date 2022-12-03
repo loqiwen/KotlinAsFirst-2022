@@ -332,8 +332,8 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var lastCheckedNELine: Int = 0
     for (ind in taggedText.indices) {
         if (taggedText[ind].replace(Regex("""\s"""), "").isEmpty()) {
-            if (lastCheckedNELine == ind - 1 && lastCheckedNELine > 0) {
-                if (ind + 1 < taggedText.size && taggedText[ind + 1].replace(Regex("""\s"""), "").isNotEmpty()) {
+            if (lastCheckedNELine + 1 == ind && lastCheckedNELine > 0) {
+                if (ind + 1 < taggedText.size) {
                     taggedText[ind] = "</p><p>"
                 }
             }
