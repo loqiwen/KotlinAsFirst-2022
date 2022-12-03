@@ -328,11 +328,17 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val taggedText =
         Regex("""\*([\s\S]*?)\*""").replace(dstrReplace) { "<i>" + it.value.replace("*", "") + "</i>" }.split("\n")
             .toMutableList()
+
+    var lastCheckedNELine: Int = 0
     for (ind in taggedText.indices) {
-        if (ind != 0 && taggedText[ind].trim().isEmpty() && taggedText[ind - 1].trim()
-                .isNotEmpty() && ind + 1 < taggedText.size && taggedText[ind + 1].trim().isNotEmpty()
-        ) {
-            taggedText[ind] = "</p><p>"
+        if (taggedText[ind].replace(Regex("""\s"""), "").isEmpty()) {
+            if (ind - lastCheckedNELine == 1) {
+                if (ind + 1 < taggedText.size && taggedText[ind + 1].replace(Regex("""\s"""), "").isNotEmpty()) {
+                    taggedText[ind] = "</p><p>"
+                }
+            }
+        } else {
+            lastCheckedNELine = ind
         }
     }
     result.write("<html><body><p>${taggedText.joinToString(separator = "")}</p></body></html>")
