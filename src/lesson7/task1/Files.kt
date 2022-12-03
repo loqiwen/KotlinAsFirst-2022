@@ -329,10 +329,10 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         Regex("""\*([\s\S]*?)\*""").replace(dstrReplace) { "<i>" + it.value.replace("*", "") + "</i>" }.split("\n")
             .toMutableList()
 
-    var lastCheckedNELine: Int = 0
+    var lastCheckedNELine: Int = -1
     for (ind in taggedText.indices) {
         if (taggedText[ind].replace(Regex("""\s"""), "").isEmpty()) {
-            if (lastCheckedNELine + 1 == ind && lastCheckedNELine > 0) {
+            if (lastCheckedNELine + 1 == ind && lastCheckedNELine >= 0) {
                 if (ind + 1 < taggedText.size) {
                     taggedText[ind] = "</p><p>"
                 }
