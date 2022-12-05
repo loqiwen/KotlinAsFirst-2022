@@ -320,7 +320,53 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    val preres = File(inputName).readLines().toMutableList()
+    val result = File(outputName).bufferedWriter()
+    result.write("<html><body><p>")
+    var wasNotEmptyLine = false
+
+    for (j in preres.indices) {
+        if (preres[j] == "" && wasNotEmptyLine) {
+            if (j < preres.size - 1 && preres[j + 1].isNotEmpty()) {
+                wasNotEmptyLine = false
+                result.write("</p><p>")
+            }
+        } else {
+            wasNotEmptyLine = true
+            var sOpen = false
+            var bOpen = false
+            var iOpen = false
+            val curLine = preres[j].map { it.toString() }.toMutableList()
+            for (ch in 0 until curLine.size - 1) {
+
+                if (curLine[ch] + curLine[ch + 1] == "~~") {
+                    curLine[ch] = ""
+                    when {
+                        !sOpen -> curLine[ch + 1] = "<s>"
+                        else -> curLine[ch + 1] = "</s>"
+                    }
+                    sOpen = !sOpen
+                } else if (curLine[ch] + curLine[ch + 1] == "**") {
+                    curLine[ch] = ""
+                    when {
+                        !bOpen -> curLine[ch + 1] = "<b>"
+                        else -> curLine[ch + 1] = "</b>"
+                    }
+                    bOpen = !bOpen
+
+                } else if (curLine[ch] == "*") {
+                    when {
+                        !iOpen -> curLine[ch] = "<i>"
+                        else -> curLine[ch] = "</i>"
+                    }
+                    iOpen = !iOpen
+                }
+            }
+            result.write(curLine.joinToString(separator = ""))
+        }
+    }
+    result.write("</p></body></html>")
+    result.close()
 }
 
 /**
