@@ -154,22 +154,38 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     if (moveNum == 0 || moveNum == 1) return setOf(start, end).toList()
     else if (moveNum == 2) {
         for (i in 1..8)
-            if (abs((start.column + i) - end.column) == abs((start.row + i) - end.row) && (start.column + i) <= 8 && (start.row + i) <= 8) return listOf(
+            if (abs((start.column + i) - end.column) == abs((start.row + i) - end.row) && Square(
+                    start.column + i,
+                    start.row + i
+                ).inside()
+            ) return listOf(
                 start,
                 Square(abs((start.column + i)), abs((start.row + i))),
                 end
             )
-            else if (abs((start.column + i) - end.column) == abs((start.row - i) - end.row) && (start.column + i) in 1..8 && (start.row - i) in 1..8) return listOf(
+            else if (abs((start.column + i) - end.column) == abs((start.row - i) - end.row) && Square(
+                    start.column + i,
+                    start.row - i
+                ).inside()
+            ) return listOf(
                 start,
                 Square(abs((start.column + i)), abs((start.row - i))),
                 end
             )
-            else if (abs((start.column - i) - end.column) == abs((start.row + i) - end.row) && (start.column - i) in 1..8 && (start.row + i) in 1..8) return listOf(
+            else if (abs((start.column - i) - end.column) == abs((start.row + i) - end.row) && Square(
+                    start.column - i,
+                    start.row + i
+                ).inside()
+            ) return listOf(
                 start,
                 Square(abs((start.column - i)), abs((start.row + i))),
                 end
             )
-            else if (abs((start.column - i) - end.column) == abs((start.row - i) - end.row) && (start.column - i) in 1..8 && (start.row - i) in 1..8) return listOf(
+            else if (abs((start.column - i) - end.column) == abs((start.row - i) - end.row) && Square(
+                    start.column - i,
+                    start.row - i
+                ).inside()
+            ) return listOf(
                 start,
                 Square(abs((start.column - i)), abs((start.row - i))),
                 end

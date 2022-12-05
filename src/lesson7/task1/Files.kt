@@ -324,18 +324,21 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val result = File(outputName).bufferedWriter()
     result.write("<html><body><p>")
     var wasNotEmptyLine = false
+    var sOpen = false
+    var bOpen = false
+    var iOpen = false
 
     for (j in preres.indices) {
         if (preres[j] == "" && wasNotEmptyLine) {
             if (j < preres.size - 1 && preres[j + 1].isNotEmpty()) {
                 wasNotEmptyLine = false
                 result.write("</p><p>")
+                sOpen = false
+                bOpen = false
+                iOpen = false
             }
         } else {
             wasNotEmptyLine = true
-            var sOpen = false
-            var bOpen = false
-            var iOpen = false
             val curLine = preres[j].map { it.toString() }.toMutableList()
             for (ch in 0 until curLine.size - 1) {
 
