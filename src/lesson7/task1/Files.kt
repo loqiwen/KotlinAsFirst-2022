@@ -343,7 +343,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 
             }
         } else {
-            wasNotEmptyLine = true
+            if (preres[j] != "") wasNotEmptyLine = true
             val curLine = preres[j].map { it.toString() }.toMutableList()
             for (ch in 0 until curLine.size - 1) {
 
