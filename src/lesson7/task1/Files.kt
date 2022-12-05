@@ -320,34 +320,7 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    val reader = File(inputName).readText()
-    val result = File(outputName).bufferedWriter()
-    val inputReplace = Regex("""~~([\s\S]*?)~~""").replace(reader) { "<s>" + it.value.replace("~~", "") + "</s>" }
-    val dstrReplace =
-        Regex("""\*\*([\s\S]*?)\*\*""").replace(inputReplace) { "<b>" + it.value.replace("**", "") + "</b>" }
-    val taggedText =
-        Regex("""\*([\s\S]*?)\*""").replace(dstrReplace) { "<i>" + it.value.replace("*", "") + "</i>" }.split("\n")
-            .toMutableList()
-
-    var lastLineNotEmpty = true
-    var lastCheckNotEmpty = -1
-    for (ind in taggedText.indices) {
-        if (taggedText[ind].replace(Regex("""\s"""), "").isEmpty()) {
-            if (lastLineNotEmpty && lastCheckNotEmpty >= 0) {
-                if (ind in 0 until taggedText.size - 1 && taggedText[ind + 1].replace(Regex("""\s"""), "")
-                        .isNotEmpty()
-                ) {
-                    taggedText[ind] = "</p><p>"
-                    lastLineNotEmpty = false
-                }
-            }
-        } else {
-            lastCheckNotEmpty = ind
-            lastLineNotEmpty = true
-        }
-    }
-    result.write("<html><body><p>${taggedText.joinToString(separator = "")}</p></body></html>")
-    result.close()
+    TODO()
 }
 
 /**
