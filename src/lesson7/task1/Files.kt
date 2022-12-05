@@ -165,28 +165,30 @@ fun centerFile(inputName: String, outputName: String) = File(outputName).buffere
 fun alignFileByWidth(inputName: String, outputName: String) {
     val inputFile = File(inputName).readLines()
     val result = File(outputName).bufferedWriter()
-    result.write("")
-    val maxLength = inputFile.maxOf { it.trim().length }
-    for (i in inputFile) {
-        val currentLine = i.trim().split(Regex("""\s+"""))
-        val spacePosition = currentLine.lastIndex
-        val delta = maxLength - currentLine.sumOf { it.length }
-        if (spacePosition > 0) {
-            if (delta % spacePosition == 0) {
-                result.write(currentLine.joinToString(" ".repeat(delta / spacePosition)))
-                result.newLine()
-            } else {
-                val spaces = delta / spacePosition
-                val ost = delta % spacePosition
-                for (z in 0 until currentLine.lastIndex) {
-                    result.write(currentLine[z] + " ".repeat(if (z < ost) spaces + 1 else spaces))
+    if (inputFile.size == 0) result.newLine()
+    else {
+        val maxLength = inputFile.maxOf { it.trim().length }
+        for (i in inputFile) {
+            val currentLine = i.trim().split(Regex("""\s+"""))
+            val spacePosition = currentLine.lastIndex
+            val delta = maxLength - currentLine.sumOf { it.length }
+            if (spacePosition > 0) {
+                if (delta % spacePosition == 0) {
+                    result.write(currentLine.joinToString(" ".repeat(delta / spacePosition)))
+                    result.newLine()
+                } else {
+                    val spaces = delta / spacePosition
+                    val ost = delta % spacePosition
+                    for (z in 0 until currentLine.lastIndex) {
+                        result.write(currentLine[z] + " ".repeat(if (z < ost) spaces + 1 else spaces))
+                    }
+                    result.write(currentLine.last())
+                    result.newLine()
                 }
-                result.write(currentLine.last())
+            } else if (spacePosition == 0) {
+                result.write(currentLine.joinToString(""))
                 result.newLine()
             }
-        } else if (spacePosition == 0) {
-            result.write(currentLine.joinToString(""))
-            result.newLine()
         }
     }
     result.close()
