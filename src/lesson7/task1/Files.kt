@@ -330,12 +330,17 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 
     for (j in preres.indices) {
         if (preres[j] == "" && wasNotEmptyLine) {
+
+            if (sOpen) result.write("</s>")
+            if (bOpen) result.write("</b>")
+            if (iOpen) result.write("</i>")
+            sOpen = false
+            bOpen = false
+            iOpen = false
             if (j < preres.size - 1 && preres[j + 1].isNotEmpty()) {
                 wasNotEmptyLine = false
                 result.write("</p><p>")
-                sOpen = false
-                bOpen = false
-                iOpen = false
+
             }
         } else {
             wasNotEmptyLine = true
@@ -364,6 +369,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                     }
                     iOpen = !iOpen
                 }
+
             }
             result.write(curLine.joinToString(separator = ""))
         }
