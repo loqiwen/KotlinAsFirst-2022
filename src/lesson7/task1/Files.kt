@@ -368,7 +368,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                         else -> curLine[ch] = "</i>"
                     }
                     iOpen = !iOpen
-                }
+                } else if (curLine.last() == "*") curLine[curLine.size - 1] = if (iOpen) "</i>" else "<i>"
 
             }
             result.write(curLine.joinToString(separator = ""))
