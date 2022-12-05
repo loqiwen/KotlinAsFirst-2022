@@ -172,10 +172,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
         val spacePosition = currentLine.lastIndex
         val delta = maxLength - currentLine.sumOf { it.length }
         if (spacePosition > 0) {
-            if (delta == 0) {
-                result.write(currentLine.joinToString(" "))
-                result.newLine()
-            } else if (delta % spacePosition == 0) {
+            if (delta % spacePosition == 0) {
                 result.write(currentLine.joinToString(" ".repeat(delta / spacePosition)))
                 result.newLine()
             } else {
@@ -408,7 +405,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 //    }
 //    result.write("</p></body></html>")
 //    result.close()
- TODO()
+    TODO()
 }
 
 /**
