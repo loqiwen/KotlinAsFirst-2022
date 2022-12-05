@@ -294,3 +294,22 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+
+fun myFun(movers: List<String>, pets: List<String>, limit: Int): Collection<Any> {
+    val filter = movers.filter { Regex("""[A-zА-я]+:(\s[А-яA-z]+\s-\s[1-9][0-9]*;)*""").matches(it) }
+    val frt = mutableListOf<String>()
+    if (filter != movers) throw IllegalArgumentException()
+    val moversSplited = movers.map { it.split(" ") }
+    for (i in moversSplited.indices) {
+        var sum = 0
+        if ((moversSplited[i] intersect pets.toSet()).size == pets.toSet().size) {
+            for (pet in pets) {
+                sum += moversSplited[i][moversSplited[i].indexOf(pet) + 2].replace(";", "").toInt()
+            }
+            if (sum <= limit) frt.add(moversSplited[i][0].replace(":", ""))
+        }
+
+    }
+    return frt
+
+}
