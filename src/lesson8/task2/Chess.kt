@@ -70,8 +70,8 @@ fun square(notation: String): Square {
  */
 
 fun rookMoveNumber(start: Square, end: Square): Int {
-    return if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-    else when {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    return when {
         start == end -> 0
         start.row == end.row || start.column == end.column -> 1
         else -> 2
@@ -154,42 +154,48 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     if (moveNum == 0 || moveNum == 1) return setOf(start, end).toList()
     else if (moveNum == 2) {
         for (i in 1..8)
-            if (abs((start.column + i) - end.column) == abs((start.row + i) - end.row) && Square(
+            return when {
+                abs((start.column + i) - end.column) == abs((start.row + i) - end.row) && Square(
                     start.column + i,
                     start.row + i
-                ).inside()
-            ) return listOf(
-                start,
-                Square(abs((start.column + i)), abs((start.row + i))),
-                end
-            )
-            else if (abs((start.column + i) - end.column) == abs((start.row - i) - end.row) && Square(
+                ).inside() -> listOf(
+                    start,
+                    Square(abs(start.column + i), abs(start.row + i)), end
+                )
+
+
+                abs((start.column + i) - end.column) == abs((start.row - i) - end.row) && Square(
                     start.column + i,
                     start.row - i
                 ).inside()
-            ) return listOf(
-                start,
-                Square(abs((start.column + i)), abs((start.row - i))),
-                end
-            )
-            else if (abs((start.column - i) - end.column) == abs((start.row + i) - end.row) && Square(
+                -> listOf(
+                    start,
+                    Square(abs((start.column + i)), abs((start.row - i))),
+                    end
+                )
+
+                abs((start.column - i) - end.column) == abs((start.row + i) - end.row) && Square(
                     start.column - i,
                     start.row + i
                 ).inside()
-            ) return listOf(
-                start,
-                Square(abs((start.column - i)), abs((start.row + i))),
-                end
-            )
-            else if (abs((start.column - i) - end.column) == abs((start.row - i) - end.row) && Square(
+                -> listOf(
+                    start,
+                    Square(abs((start.column - i)), abs((start.row + i))),
+                    end
+                )
+
+                abs((start.column - i) - end.column) == abs((start.row - i) - end.row) && Square(
                     start.column - i,
                     start.row - i
                 ).inside()
-            ) return listOf(
-                start,
-                Square(abs((start.column - i)), abs((start.row - i))),
-                end
-            )
+                -> return listOf(
+                    start,
+                    Square(abs((start.column - i)), abs((start.row - i))),
+                    end
+                )
+
+                else -> continue
+            }
     }
     return listOf()
 }
