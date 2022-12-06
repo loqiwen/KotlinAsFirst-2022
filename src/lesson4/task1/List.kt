@@ -287,6 +287,7 @@ fun charToInt(i: Char): Int = when (i) {
 
 fun decimalFromString(str: String, base: Int): Int =
     decimal(str.map { charToInt(it) }, base)
+
 /**
  * Сложная (5 баллов)
  *
@@ -310,4 +311,72 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    if (n == 0) return "ноль"
+    val units = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val teens = listOf(
+        "десять",
+        "одиннадцать",
+        "двенадцать",
+        "тринадцать",
+        "четырнадцать",
+        "пятнадцать",
+        "шестнадцать",
+        "семнадцать",
+        "восемнаддцать",
+        "девятнадцать"
+    )
+    val tys = listOf(
+        "",
+        "",
+        "двадцать",
+        "тридцать",
+        "сорок",
+        "пятьдесят",
+        "шестьдесят",
+        "семьдесят",
+        "восемьдесят",
+        "девяносто"
+    )
+    val hundreds =
+        listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val result = mutableListOf<String>()
+
+    result.add(hundreds[n / 100000])
+    var nNow =
+        n % 100000
+    result.add(
+        when (nNow / 10000) {
+            1 -> teens[(nNow / 1000) % 10]
+            in 2..9 -> tys[nNow / 10000]
+            else -> ""
+        }
+    )
+    nNow %= 10000
+    result.add(
+        when {
+            teens.contains(result[1]) -> "тысяч"
+            nNow / 1000 == 1 -> "одна тысяча"
+            nNow / 1000 == 2 -> "две тысячи"
+            nNow / 1000 == 3 -> "три тысячи"
+            nNow / 1000 == 4 -> "четыре тысячи"
+            nNow / 1000 in 5..9 -> units[nNow / 1000] + " тысяч"
+            result.any { it != "" } -> "тысяч"
+            else -> ""
+        }
+    )
+    nNow %= 1000
+    result.add(hundreds[nNow / 100])
+    nNow =
+        n % 100
+    result.add(
+        when (nNow / 10) {
+            1 -> teens[nNow % 10]
+            in 2..9 -> tys[nNow / 10]
+            else -> ""
+        }
+    )
+    nNow %= 10
+    result.add(if (!teens.contains(result[4])) units[nNow] else "")
+    return result.filter { it.isNotEmpty() }.joinToString(" ").trim()
+}
