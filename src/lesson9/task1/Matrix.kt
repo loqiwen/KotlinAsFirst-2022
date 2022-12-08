@@ -1,65 +1,61 @@
-@file:Suppress("UNUSED_PARAMETER", "unused")
-
 package lesson9.task1
 
 // Урок 9: проектирование классов
 // Максимальное количество баллов = 40 (без очень трудных задач = 15)
 
-/**
- * Ячейка матрицы: row = ряд, column = колонка
- */
+/*
+* Ячейка матрицы: row = ряд, column = колонка
+*/
 data class Cell(val row: Int, val column: Int)
-
-/**
- * Интерфейс, описывающий возможности матрицы. E = тип элемента матрицы
- */
+/*
+* Интерфейс, описывающий возможности матрицы. E = тип элемента матрицы
+*/
 interface Matrix<E> {
-    /** Высота */
+    /* Высота */
     val height: Int
 
-    /** Ширина */
+    /* Ширина */
     val width: Int
 
-    /**
-     * Доступ к ячейке.
-     * Методы могут бросить исключение, если ячейка не существует или пуста
-     */
+    /*
+    * Доступ к ячейке.
+    * Методы могут бросить исключение, если ячейка не существует или пуста
+    */
     operator fun get(row: Int, column: Int): E
 
     operator fun get(cell: Cell): E
 
-    /**
-     * Запись в ячейку.
-     * Методы могут бросить исключение, если ячейка не существует
-     */
+    /*
+    * Запись в ячейку.
+    * Методы могут бросить исключение, если ячейка не существует
+    */
     operator fun set(row: Int, column: Int, value: E)
 
     operator fun set(cell: Cell, value: E)
 }
 
-/**
- * Простая (2 балла)
- *
- * Метод для создания матрицы, должен вернуть РЕАЛИЗАЦИЮ Matrix<E>.
- * height = высота, width = ширина, e = чем заполнить элементы.
- * Бросить исключение IllegalArgumentException, если height или width <= 0.
- */
+/*
+* Простая (2 балла)
+*
+* Метод для создания матрицы, должен вернуть РЕАЛИЗАЦИЮ Matrix<E>.
+* height = высота, width = ширина, e = чем заполнить элементы.
+* Бросить исключение IllegalArgumentException, если height или width <= 0.
+*/
 fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> =
     if (height <= 0 || width <= 0) throw IllegalArgumentException() else MatrixImpl(height, width, e)
 
-/**
- * Средняя сложность (считается двумя задачами в 3 балла каждая)
- *
- * Реализация интерфейса "матрица"
- */
+/*
+* Средняя сложность (считается двумя задачами в 3 балла каждая)
+*
+* Реализация интерфейса "матрица"
+*/
 class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : Matrix<E> {
-    private val matrixCells = mutableMapOf<Cell, E>()
+    val matrixCells = mutableMapOf<Cell, E>()
 
     init {
         for (i in 0..height) {
             for (j in 0..width) {
-                val now = mutableMapOf<Cell, E>()
-                now[Cell(i, j)] = e
+                matrixCells[Cell(i, j)] = e
             }
         }
     }
@@ -91,7 +87,8 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         for (row in 0..height - 1) {
             sb.append("[")
             for (column in 0..width - 1) {
-                sb.append(this[row, column])
+                val cellToFind = Cell(row, column)
+                if (matrixCells.keys.contains(cellToFind)) sb.append(matrixCells.get(cellToFind).toString())
             }
             sb.append("]")
         }
