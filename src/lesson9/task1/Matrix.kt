@@ -90,7 +90,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         for (row in 0..height - 1) {
             sb.append("[")
             for (column in 0..width) {
-                if (column != width) sb.append(Cell(row, column)) else sb.append("]")
+                if (column != width) sb.append(matrixCells[Cell(row, column)]) else sb.append("]")
             }
 
         }
