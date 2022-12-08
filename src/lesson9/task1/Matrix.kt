@@ -9,7 +9,6 @@ package lesson9.task1
  * Ячейка матрицы: row = ряд, column = колонка
  */
 data class Cell(val row: Int, val column: Int)
-data class MutablePair<X, Y>(var first: X, var second: Y)
 
 /**
  * Интерфейс, описывающий возможности матрицы. E = тип элемента матрицы
@@ -88,15 +87,15 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     override fun toString(): String {
         val sb = StringBuilder()
         sb.append("[")
-        for (row in 0..height) {
+        for (row in 0..height - 1) {
             sb.append("[")
             for (column in 0..width) {
-                if (column != width) sb.append(this[row, column]) else sb.append("]")
+                if (column != width) sb.append(Cell(row, column)) else sb.append("]")
             }
 
         }
         sb.append("]")
-        return "$sb"
+        return sb.toString()
     }
 
     override fun hashCode(): Int {
