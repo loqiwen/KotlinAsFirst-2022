@@ -95,7 +95,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
             sb.append("]")
         }
         sb.append("]")
-        return sb.toString()
+        return "$sb"
     }
 
     override fun hashCode(): Int {
