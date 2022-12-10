@@ -8,6 +8,7 @@ package lesson9.task1
 * Ячейка матрицы: row = ряд, column = колонка
 */
 data class Cell(val row: Int, val column: Int)
+
 /*
 * Интерфейс, описывающий возможности матрицы. E = тип элемента матрицы
 */
@@ -54,8 +55,8 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     val matrixCells = mutableMapOf<Cell, E>()
 
     init {
-        for (i in 0..height) {
-            for (j in 0..width) {
+        for (i in 0 until height) {
+            for (j in 0 until width) {
                 matrixCells[Cell(i, j)] = e
             }
         }
@@ -79,8 +80,8 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         matrixCells[cell] = value
     }
 
-    override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width
-
+    override fun equals(other: Any?) =
+        other is MatrixImpl<*> && height == other.height && width == other.width && other.hashCode() == this.hashCode() && other.matrixCells == this.matrixCells
 
     override fun toString(): String {
         val sb = StringBuilder()
@@ -98,9 +99,10 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     }
 
     override fun hashCode(): Int {
-        var result = width
-        result = 31 * result + height
-        result = 31 * result + matrixCells.hashCode()
+        var result = 5
+        result = result * 31 + height
+        result = result * 31 + width
+        // Something for elements...
         return result
     }
 }

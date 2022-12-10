@@ -2,8 +2,10 @@
 
 package lesson9.task2
 
+import lesson9.task1.Cell
 import lesson9.task1.Matrix
 import lesson9.task1.createMatrix
+import kotlin.math.min
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
 
@@ -76,7 +78,16 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val result = createMatrix(height, width, 0)
+    for (i in 0 until height) {
+        for (j in 0 until width) {
+            result[Cell(i, j)] = if (i == 0 || j == 0 || i == height - 1 || j == width - 1) 1
+            else if (i > height / 2 || j > width / 2) min(height - i, width - j) else min(i + 1, j + 1)
+        }
+    }
+    return result
+}
 
 /**
  * Сложная (5 баллов)
@@ -216,7 +227,20 @@ operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toSt
  * Вернуть тройку (Triple) -- (да/нет, требуемый сдвиг по высоте, требуемый сдвиг по ширине).
  * Если наложение невозможно, то первый элемент тройки "нет" и сдвиги могут быть любыми.
  */
-fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> = TODO()
+fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> {
+    for (i in 0..lock.height - key.height) { // сдвиги по высоте
+        for (j in 0..lock.width - key.width) { // сдвиги по ширине
+            var countDiff = 0
+            for (yKey in 0..key.height - 1) {
+                for (xKey in 0..key.width - 1) {
+                    if (lock[Cell(i + yKey, j + xKey)] != key[Cell(yKey, xKey)]) countDiff += 1
+                }
+            }
+            if (countDiff == key.height * key.width) return Triple(true, i, j)
+        }
+    }
+    return Triple(false, -1, -1)
+}
 
 /**
  * Сложная (8 баллов)
