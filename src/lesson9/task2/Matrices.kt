@@ -85,7 +85,7 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
             result[Cell(i, j)] = if (i == 0 || j == 0 || i == height - 1 || j == width - 1) 1
             else if (i >= height / 2 && j >= width / 2) min(height - i, width - j)
             else if (i >= height / 2 && j < width / 2) min(height - i, j + 1)
-            else if (i >= height / 2 && j >= width / 2) min(i + 1, width - j)
+            else if (i < height / 2 && j >= width / 2) min(i + 1, width - j)
             else min(i + 1, j + 1)
         }
     }
