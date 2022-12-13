@@ -165,7 +165,7 @@ fun centerFile(inputName: String, outputName: String) = File(outputName).buffere
 fun alignFileByWidth(inputName: String, outputName: String) {
     val inputFile = File(inputName).readLines()
     val result = File(outputName).bufferedWriter()
-    if (inputFile.size == 0) result.newLine()
+    if (inputFile.isEmpty()) result.newLine()
     else {
         val maxLength = inputFile.maxOf { it.trim().length }
         for (i in inputFile) {
@@ -348,65 +348,6 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-//    val preres = File(inputName).readLines().toMutableList()
-//    val result = File(outputName).bufferedWriter()
-//    result.write("<html><body><p>")
-//    var wasNotEmptyLine = false
-//    var sOpen = false
-//    var bOpen = false
-//    var iOpen = false
-//
-//    for (j in preres.indices) {
-//        if (preres[j] == "" && wasNotEmptyLine) {
-//
-//            if (sOpen) result.write("</s>")
-//            if (bOpen) result.write("</b>")
-//            if (iOpen) result.write("</i>")
-//            sOpen = false
-//            bOpen = false
-//            iOpen = false
-//            if (j < preres.size - 1 && preres[j + 1].isNotEmpty()) {
-//                wasNotEmptyLine = false
-//                result.write("</p><p>")
-//
-//            }
-//        } else {
-//            if (preres[j] != "") wasNotEmptyLine = true
-//            val curLine = preres[j].map { it.toString() }.toMutableList()
-//            for (ch in 0 until curLine.size - 1) {
-//
-//                if (curLine[ch] + curLine[ch + 1] == "~~") {
-//                    curLine[ch] = ""
-//                    when {
-//                        !sOpen -> curLine[ch + 1] = "<s>"
-//                        else -> curLine[ch + 1] = "</s>"
-//                    }
-//                    sOpen = !sOpen
-//                } else if (curLine[ch] + curLine[ch + 1] == "**") {
-//                    curLine[ch] = ""
-//                    when {
-//                        !bOpen -> curLine[ch + 1] = "<b>"
-//                        else -> curLine[ch + 1] = "</b>"
-//                    }
-//                    bOpen = !bOpen
-//
-//                } else if (curLine[ch] == "*") {
-//                    when {
-//                        !iOpen -> curLine[ch] = "<i>"
-//                        else -> curLine[ch] = "</i>"
-//                    }
-//                    iOpen = !iOpen
-//                } else if (curLine.last() == "*") {
-//                    curLine[curLine.size - 1] = if (iOpen) "</i>" else "<i>"
-//                    iOpen = !iOpen
-//                }
-//
-//            }
-//            result.write(curLine.joinToString(separator = ""))
-//        }
-//    }
-//    result.write("</p></body></html>")
-//    result.close()
     TODO()
 }
 
